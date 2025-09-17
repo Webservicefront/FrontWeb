@@ -1,0 +1,45 @@
+[
+    {
+      "title": "B2B lead-gen",
+      "desc": "High-clarity value prop, authority cues, and frictionless contact flow.",
+      "metric": { "label": "Leads increase", "value": "+38%" },
+      "href": "/use-cases/b2b",
+      "tag": "Enterprise"
+    },
+    {
+      "title": "Product landing",
+      "desc": "Conversion-focused hero, proof, and crisp feature storytelling.",
+      "metric": { "label": "CTR uplift", "value": "+24%" },
+      "href": "/use-cases/landing",
+      "tag": "SaaS"
+    },
+    {
+      "title": "Hiring page",
+      "desc": "Team narrative, values, and benefits with credible signals.",
+      "metric": { "label": "Applicants", "value": "2.1×" },
+      "href": "/use-cases/careers",
+      "tag": "Talent"
+    },
+    {
+      "title": "Docs hub",
+      "desc": "Structured navigation, MDX content, and searchable references.",
+      "metric": { "label": "Support tickets", "value": "−31%" },
+      "href": "/use-cases/docs",
+      "tag": "DevEx"
+    },
+    {
+      "title": "Campaign microsite",
+      "desc": "Fast storytelling, snackable sections, and shareable anchors.",
+      "metric": { "label": "Time on page", "value": "+19%" },
+      "href": "/use-cases/microsite",
+      "tag": "Marketing"
+    },
+    {
+      "title": "Trust & security",
+      "desc": "Compliance surfaces, audit-ready pages, and transparent policies.",
+      "metric": { "label": "Sales velocity", "value": "+12%" },
+      "href": "/use-cases/security",
+      "tag": "Compliance"
+    }
+  ]
+  

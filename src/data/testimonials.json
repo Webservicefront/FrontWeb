@@ -1,0 +1,43 @@
+[
+    {
+      "name": "Ana Morales",
+      "role": "Marketing Lead",
+      "company": "Kairo Labs",
+      "avatar": "/images/avatars/ana.jpg",
+      "logo": "/logos/partners/alpha.svg",
+      "quote": "Clear strategy, elegant design, and a fast build. Our leads rose immediately after launch."
+    },
+    {
+      "name": "Daniel Ruiz",
+      "role": "Head of Product",
+      "company": "Vectorify",
+      "avatar": "/images/avatars/daniel.jpg",
+      "logo": "/logos/partners/beta.svg",
+      "quote": "The new site explains the product in half the time. Conversion and retention both improved."
+    },
+    {
+      "name": "Sofia Delgado",
+      "role": "Founder",
+      "company": "Nimbus Studio",
+      "avatar": "/images/avatars/sofia.jpg",
+      "logo": "/logos/partners/gamma.svg",
+      "quote": "Thoughtful motion and crisp IA. It feels premium without being heavy or distracting."
+    },
+    {
+      "name": "Marcelo Torres",
+      "role": "Engineering Manager",
+      "company": "Astra Networks",
+      "avatar": "/images/avatars/marcelo.jpg",
+      "logo": "/logos/partners/delta.svg",
+      "quote": "Accessible, maintainable, and fast. The design system made future iterations painless."
+    },
+    {
+      "name": "Lucía Paredes",
+      "role": "Growth Lead",
+      "company": "OrbitIQ",
+      "avatar": "/images/avatars/lucia.jpg",
+      "logo": "/logos/partners/omega.svg",
+      "quote": "We shipped in three weeks with analytics and SEO dialed in. Best launch we’ve had."
+    }
+  ]
+  

@@ -1,0 +1,67 @@
+[
+    {
+      "q": "What is the typical timeline?",
+      "a": "Most marketing sites ship in 2–4 weeks depending on scope, decision speed, and content readiness."
+    },
+    {
+      "q": "What’s included by default?",
+      "a": "Discovery, IA, UX/UI design, responsive build in Next.js, motion design, accessibility, performance tuning, technical SEO, analytics setup, and deployment."
+    },
+    {
+      "q": "Do you handle copy and visuals?",
+      "a": "Yes. We provide UX copy guidance and can curate imagery/illustrations. You can supply assets or I can source and art-direct them."
+    },
+    {
+      "q": "Which stack do you use?",
+      "a": "Next.js App Router, TypeScript, Tailwind, Framer Motion, and a small design system built for speed and maintainability."
+    },
+    {
+      "q": "Can I update content myself?",
+      "a": "Yes. I can wire a lightweight CMS or structured JSON/MDX content so non-technical editors can publish safely."
+    },
+    {
+      "q": "How many revision rounds are included?",
+      "a": "Two focused rounds per major phase (design and build). Extra iterations are welcome on a time-and-materials basis."
+    },
+    {
+      "q": "How do we get started?",
+      "a": "Share goals, audience, and references. I’ll propose scope, timeline, and a fixed price. Once approved and the deposit is paid, we kick off."
+    },
+    {
+      "q": "Do you support animations without hurting performance?",
+      "a": "Yes. Motion is purposeful and GPU-friendly, respecting reduced-motion preferences and budgeted within performance targets."
+    },
+    {
+      "q": "Is accessibility included?",
+      "a": "Yes. WCAG-minded structure, color contrast, keyboard navigation, ARIA where needed, and motion preferences are standard."
+    },
+    {
+      "q": "Do you handle SEO?",
+      "a": "Technical SEO is included: metadata, structured data where relevant, clean semantics, sitemaps, robots, and social previews."
+    },
+    {
+      "q": "Who owns the work?",
+      "a": "You do. Upon final payment, you receive source code, design assets, and full rights to the deliverables."
+    },
+    {
+      "q": "Where is the site hosted?",
+      "a": "Typically Vercel for speed and reliability, but I can deploy to your preferred provider and set up CI."
+    },
+    {
+      "q": "What about analytics and privacy?",
+      "a": "I integrate privacy-friendly analytics by default and configure consent, cookieless options, or your preferred platform."
+    },
+    {
+      "q": "Do you offer maintenance?",
+      "a": "Yes. I offer lightweight retainers for updates, new sections, and ongoing optimization after launch."
+    },
+    {
+      "q": "Can we localize the site?",
+      "a": "Yes. I can set up internationalization with language routing, locale-specific metadata, and translation workflows."
+    },
+    {
+      "q": "Do you work under an NDA?",
+      "a": "Absolutely. I’m happy to sign an NDA and handle private repos and secure asset sharing."
+    }
+  ]
+  
