@@ -2,6 +2,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState, type ComponentType } from "react";
 import { motion } from "framer-motion";
 import { Rocket, BarChart3, Bot, Workflow, ShoppingCart, FileText, ChevronRight, Sparkles } from "lucide-react";
 import Container from "@/components/primitives/Container";
@@ -10,7 +11,7 @@ import Icon from "@/components/primitives/Icon";
 import { fadeUp, staggerContainer, hoverLift, tapPress } from "@/components/animations/variants";
 
 type CaseItem = {
-  icon: React.ComponentType<{ className?: string }>;
+  icon: ComponentType<{ className?: string }>;
   title: string;
   desc: string;
   metric: { label: string; value: string };
@@ -28,6 +29,14 @@ type Props = {
 };
 
 const defaults: CaseItem[] = [
+  {
+    icon: Workflow,
+    title: "Workflows with n8n + AI agents",
+    desc: "Automate lead routing, data enrichment, summarization, and human-in-the-loop approvals with orchestrated AI steps.",
+    metric: { label: "Manual work", value: "−50%" },
+    href: "/use-cases/n8n-ai-workflows",
+    tag: "AI Ops",
+  },
   {
     icon: Rocket,
     title: "SaaS landing",
@@ -61,14 +70,6 @@ const defaults: CaseItem[] = [
     tag: "AI",
   },
   {
-    icon: Workflow,
-    title: "Automation",
-    desc: "Workflows, webhooks, and integrations to reduce manual tasks and errors.",
-    metric: { label: "Hours saved", value: "−40%" },
-    href: "/use-cases/automation",
-    tag: "Ops",
-  },
-  {
     icon: FileText,
     title: "Technical docs",
     desc: "Searchable docs hubs with MDX, versioning, and structured navigation.",
@@ -83,13 +84,27 @@ export default function UseCases({
   subtitle = "Pages and apps that convert better, explain faster, and scale with your roadmap.",
   items = defaults,
   ctaHref = "/use-cases",
+  ctaLabel = "Explore all use cases",
 }: Props) {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 768);
+    onResize();
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
   return (
     <section className="relative">
       <Container reveal bgGlow py="lg">
         <MaxWidthWrapper reveal size="lg" px="md" align="center">
-          <motion.div variants={fadeUp(12)} className="mx-auto max-w-3xl">
-            
+          <motion.div
+            variants={fadeUp(12)}
+            initial={isMobile ? false : "hidden"}
+            whileInView={isMobile ? undefined : "show"}
+            viewport={{ once: true, margin: "-40px" }}
+            className="mx-auto max-w-3xl"
+          >
             <h2 className="text-balance text-3xl font-semibold leading-tight tracking-tight text-white md:text-4xl">
               {title}
             </h2>
@@ -99,10 +114,10 @@ export default function UseCases({
           </motion.div>
 
           <motion.ul
-            variants={staggerContainer(0.08, 0.1)}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-80px" }}
+            variants={staggerContainer(0.04, 0.08)}
+            initial={isMobile ? false : "hidden"}
+            whileInView={isMobile ? undefined : "show"}
+            viewport={{ once: true, margin: "-40px" }}
             className="mx-auto mt-10 grid w-full gap-4 sm:grid-cols-2 lg:grid-cols-3"
           >
             {items.map((item) => (
@@ -153,12 +168,21 @@ export default function UseCases({
             ))}
           </motion.ul>
 
-          <motion.div variants={fadeUp(12)} className="mt-10">
+          <motion.div
+            variants={fadeUp(12)}
+            initial={isMobile ? false : "hidden"}
+            whileInView={isMobile ? undefined : "show"}
+            viewport={{ once: true, margin: "-40px" }}
+            className="mt-10"
+          >
             <Link href={ctaHref}>
               <motion.span
-               
+                variants={tapPress}
+                whileTap="tap"
+                className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white hover:bg-white/10"
               >
-
+                <Sparkles className="size-4" />
+                {ctaLabel}
               </motion.span>
             </Link>
           </motion.div>

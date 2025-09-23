@@ -2,15 +2,16 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState, type ComponentType } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Target, Lightbulb, Layout, Code2, Beaker, Rocket } from "lucide-react";
+import { ArrowRight, Target, Lightbulb, Layout, Workflow, Beaker, Rocket } from "lucide-react";
 import Container from "@/components/primitives/Container";
 import MaxWidthWrapper from "@/components/primitives/MaxWidthWrapper";
 import Icon from "@/components/primitives/Icon";
 import { fadeUp, staggerContainer, hoverLift, tapPress } from "@/components/animations/variants";
 
 type Step = {
-  icon: React.ComponentType<{ className?: string }>;
+  icon: ComponentType<{ className?: string }>;
   title: string;
   desc: string;
   caption?: string;
@@ -29,23 +30,37 @@ const defaults: Step[] = [
   { icon: Target, title: "Discovery", desc: "Goals, users, constraints, and success metrics to align scope and priorities.", caption: "60–90 min" },
   { icon: Lightbulb, title: "Technical scoping", desc: "Requirements, stack choices, and a delivery plan with clear milestones.", caption: "1–2 days" },
   { icon: Layout, title: "UX & wireframes", desc: "Key flows and information architecture for web and mobile experiences.", caption: "1–2 days" },
-  { icon: Code2, title: "Architecture & AI", desc: "APIs, data models, and AI integration (LLMs, RAG, evals, guardrails).", caption: "2–3 days" },
+  { icon: Workflow, title: "Orchestration in n8n + AI", desc: "Design event-driven workflows, connect APIs, and insert AI agents with guardrails and human-in-the-loop.", caption: "1–2 days" },
   { icon: Beaker, title: "Build & QA", desc: "Implementation, tests, accessibility checks, and performance budgets.", caption: "3–5 days" },
   { icon: Rocket, title: "Launch & handoff", desc: "Deployment, observability, docs, and a roadmap for iteration.", caption: "Same day" },
 ];
 
 export default function ProcessSteps({
   title = "A clear, fast path from idea to production",
-  subtitle = "Focused collaboration and reliable delivery—covering discovery, UX, architecture, AI integration, build, and launch.",
+  subtitle = "Discovery, UX, architecture, and AI workflow orchestration in n8n—then build, QA, and launch.",
   steps = defaults,
   ctaHref = "/process",
+  ctaLabel = "See the full process",
 }: Props) {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 768);
+    onResize();
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
   return (
     <section className="relative">
       <Container reveal bgGlow py="lg">
         <MaxWidthWrapper reveal size="lg" px="md" align="center">
-          <motion.div variants={fadeUp(12)} className="mx-auto max-w-3xl">
-            
+          <motion.div
+            variants={fadeUp(12)}
+            initial={isMobile ? false : "hidden"}
+            whileInView={isMobile ? undefined : "show"}
+            viewport={{ once: true, margin: "-40px" }}
+            className="mx-auto max-w-3xl"
+          >
             <h2 className="text-balance text-3xl font-semibold leading-tight tracking-tight text-white md:text-4xl">
               {title}
             </h2>
@@ -55,10 +70,10 @@ export default function ProcessSteps({
           </motion.div>
 
           <motion.ol
-            variants={staggerContainer(0.08, 0.12)}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-80px" }}
+            variants={staggerContainer(0.04, 0.08)}
+            initial={isMobile ? false : "hidden"}
+            whileInView={isMobile ? undefined : "show"}
+            viewport={{ once: true, margin: "-40px" }}
             className="mx-auto mt-10 grid w-full gap-4 sm:grid-cols-2 lg:grid-cols-3"
           >
             {steps.map((s, i) => (
@@ -94,11 +109,21 @@ export default function ProcessSteps({
             ))}
           </motion.ol>
 
-          <motion.div variants={fadeUp(12)} className="mt-10">
+          <motion.div
+            variants={fadeUp(12)}
+            initial={isMobile ? false : "hidden"}
+            whileInView={isMobile ? undefined : "show"}
+            viewport={{ once: true, margin: "-40px" }}
+            className="mt-10"
+          >
             <Link href={ctaHref}>
               <motion.span
-               
+                variants={tapPress}
+                whileTap="tap"
+                className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white hover:bg-white/10"
               >
+                {ctaLabel}
+                <ArrowRight className="size-4" />
               </motion.span>
             </Link>
           </motion.div>

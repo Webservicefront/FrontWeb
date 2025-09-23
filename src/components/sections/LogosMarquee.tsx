@@ -2,6 +2,7 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Container from "@/components/primitives/Container";
 import MaxWidthWrapper from "@/components/primitives/MaxWidthWrapper";
@@ -18,6 +19,7 @@ type Props = {
 };
 
 const defaults: Logo[] = [
+  { src: "/icons/n8n-color.png", alt: "n8n" },
   { src: "/icons/react.svg", alt: "React" },
   { src: "/icons/nextjs.svg", alt: "Next.js" },
   { src: "/icons/typescript.svg", alt: "TypeScript" },
@@ -41,13 +43,21 @@ export default function LogosMarquee({
   grayscale = true,
   gap = "gap-6 sm:gap-8",
 }: Props) {
+  const [reduceMotion, setReduceMotion] = useState(false);
+  useEffect(() => {
+    const q = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setReduceMotion(q.matches);
+    const onChange = () => setReduceMotion(q.matches);
+    q.addEventListener?.("change", onChange);
+    return () => q.removeEventListener?.("change", onChange);
+  }, []);
+
   const row = dup(logos);
   const rowAlt = dup([...logos].reverse());
   const imgClass = [
     "object-contain p-2 opacity-80 transition",
     grayscale ? "grayscale hover:grayscale-0 hover:opacity-100" : "hover:opacity-100",
   ].join(" ");
-
   const cardClass =
     "relative flex h-16 w-28 sm:h-20 sm:w-32 items-center justify-center rounded-xl border border-white/10 bg-white/5";
 
@@ -73,7 +83,7 @@ export default function LogosMarquee({
 
             <motion.div variants={fadeUp(10)} className="relative">
               <div
-                className={`flex ${gap} w-max items-center [animation:marquee_linear_infinite]`}
+                className={`flex ${gap} w-max items-center ${reduceMotion ? "" : "[animation:marquee_linear_infinite]"}`}
                 style={{ animationDuration: `${durationMs}ms` }}
               >
                 {row.map((l, i) => (
@@ -95,7 +105,7 @@ export default function LogosMarquee({
 
             <motion.div variants={fadeUp(10)} className="relative mt-4">
               <div
-                className={`flex ${gap} w-max items-center [animation:marqueeAlt_linear_infinite]`}
+                className={`flex ${gap} w-max items-center ${reduceMotion ? "" : "[animation:marqueeAlt_linear_infinite]"}`}
                 style={{ animationDuration: `${durationMs}ms` }}
               >
                 {rowAlt.map((l, i) => (

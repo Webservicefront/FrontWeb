@@ -1,6 +1,7 @@
 // src/components/sections/FeatureGrid.tsx
 "use client";
 
+import { useEffect, useState, type ComponentType } from "react";
 import { motion } from "framer-motion";
 import { Sparkles, Rocket, Shield, Zap, Gauge, Cog, Globe2, LayoutDashboard, Cpu } from "lucide-react";
 import Container from "../primitives/Container";
@@ -9,7 +10,7 @@ import Icon from "../primitives/Icon";
 import { fadeUp, staggerContainer, hoverLift } from "../animations/variants";
 
 type Feature = {
-  icon: React.ComponentType<{ className?: string }>;
+  icon: ComponentType<{ className?: string }>;
   title: string;
   desc: string;
 };
@@ -22,6 +23,7 @@ type Props = {
 };
 
 const defaults: Feature[] = [
+  { icon: Sparkles, title: "AI Automations with n8n", desc: "Design, orchestrate, and monitor workflows that connect apps, APIs, and AI agents to eliminate manual work." },
   { icon: Rocket, title: "Web & Mobile Apps", desc: "Cross-platform apps and modern web experiences built for speed, reliability, and scale." },
   { icon: Cpu, title: "AI Integration (LLMs, RAG)", desc: "Chatbots, embeddings, vector search, and retrieval-augmented generation with evals and guardrails." },
   { icon: Cog, title: "APIs & Backends", desc: "Typed services, REST/GraphQL, authentication, rate limiting, and background jobs." },
@@ -29,7 +31,7 @@ const defaults: Feature[] = [
   { icon: Gauge, title: "SEO & Performance", desc: "Core Web Vitals, image pipelines, code splitting, caching, and CDN optimization." },
   { icon: LayoutDashboard, title: "Dashboards & BI", desc: "Interactive dashboards, admin panels, and data visualizations for clear decision making." },
   { icon: Shield, title: "Security & Compliance", desc: "RBAC, audit logs, secrets management, privacy controls, and best-practice hardening." },
-  { icon: Zap, title: "Automation & Integrations", desc: "Workflow automation, third-party APIs, webhooks, and data sync across your stack." },
+  { icon: Zap, title: "Automation & Integrations", desc: "Webhook-driven flows, third-party APIs, and data sync across your stack." },
 ];
 
 export default function FeatureGrid({
@@ -37,11 +39,25 @@ export default function FeatureGrid({
   subtitle = "From idea to production: we deliver apps, AI features, and platforms that are fast, accessible, and maintainable.",
   features = defaults,
 }: Props) {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 768);
+    onResize();
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
   return (
     <section className="relative">
       <Container reveal bgGlow py="lg">
         <MaxWidthWrapper reveal size="lg" px="md" align="center">
-          <motion.div variants={fadeUp(12)} className="mx-auto max-w-3xl">
+          <motion.div
+            variants={fadeUp(12)}
+            initial={isMobile ? false : "hidden"}
+            whileInView={isMobile ? undefined : "show"}
+            viewport={{ once: true, margin: "-40px" }}
+            className="mx-auto max-w-3xl"
+          >
             <h2 className="text-balance text-3xl font-semibold leading-tight tracking-tight text-white md:text-4xl">
               {title}
             </h2>
@@ -51,10 +67,10 @@ export default function FeatureGrid({
           </motion.div>
 
           <motion.ul
-            variants={staggerContainer(0.08, 0.1)}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-80px" }}
+            variants={staggerContainer(0.04, 0.08)}
+            initial={isMobile ? false : "hidden"}
+            whileInView={isMobile ? undefined : "show"}
+            viewport={{ once: true, margin: "-40px" }}
             className="mx-auto mt-10 grid w-full gap-4 sm:grid-cols-2 lg:grid-cols-3"
           >
             {features.map((f, i) => (

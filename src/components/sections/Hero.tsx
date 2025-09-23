@@ -2,6 +2,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState, type ComponentType } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Play, Shield, Gauge, Zap } from "lucide-react";
 import Container from "@/components/primitives/Container";
@@ -10,7 +11,7 @@ import Icon from "@/components/primitives/Icon";
 import { useViewportParallax } from "@/components/animations/parallax";
 import { fadeUp, hoverLift, tapPress, staggerContainer } from "@/components/animations/variants";
 
-type Chip = { icon: React.ComponentType<{ className?: string }>; label: string };
+type Chip = { icon: ComponentType<{ className?: string }>; label: string };
 
 type Props = {
   title?: string;
@@ -24,17 +25,25 @@ type Props = {
 
 export default function Hero({
   title = "Software, AI, and Web development that drives outcomes",
-  subtitle = "We ship high-performance products: AI features, modern web apps, and robust APIs with accessibility and SEO built in.",
+  subtitle = "We ship high-performance products: AI features, AI automations with n8n, modern web apps, and robust APIs with accessibility and SEO built in.",
   primaryHref = "https://wa.me/51989147467?text=Hello,%20I%20am%20interested%20in%20starting%20a%20project%20with%20Tylvra.%20Could%20you%20share%20next%20steps%20and%20your%20availability%20for%20a%20brief%20call%3F",
   primaryLabel = "Start a project",
   secondaryHref = "/#services",
   secondaryLabel = "See services",
   chips = [
-    { icon: Zap, label: "AI solutions" },
+    { icon: Zap, label: "AI automations (n8n)" },
     { icon: Gauge, label: "Performance-first" },
     { icon: Shield, label: "Security & privacy" },
   ],
 }: Props) {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 768);
+    onResize();
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
   const bg = useViewportParallax({ translate: { y: [24, -16] }, opacity: [0.25, 0.6], scale: [1, 1.04] });
 
   return (
@@ -48,7 +57,13 @@ export default function Hero({
         </div>
 
         <MaxWidthWrapper reveal size="lg" px="md" align="center">
-          <motion.div variants={fadeUp(14)} className="mx-auto max-w-4xl">
+          <motion.div
+            variants={fadeUp(14)}
+            initial={isMobile ? false : "hidden"}
+            whileInView={isMobile ? undefined : "show"}
+            viewport={{ once: true, margin: "-40px" }}
+            className="mx-auto max-w-4xl"
+          >
             <h1 className="text-balance text-4xl font-semibold leading-tight tracking-tight text-white md:text-6xl">
               {title}
             </h1>
@@ -84,10 +99,10 @@ export default function Hero({
             </div>
 
             <motion.ul
-              variants={staggerContainer(0.08, 0.1)}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true, margin: "-80px" }}
+              variants={staggerContainer(0.04, 0.08)}
+              initial={isMobile ? false : "hidden"}
+              whileInView={isMobile ? undefined : "show"}
+              viewport={{ once: true, margin: "-40px" }}
               className="mx-auto mt-8 flex flex-wrap items-center justify-center gap-2"
             >
               {chips.map((c, i) => (

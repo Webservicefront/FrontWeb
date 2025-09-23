@@ -2,6 +2,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Container from "@/components/primitives/Container";
@@ -20,19 +21,30 @@ type Props = {
 
 export default function CTA({
   title = "Build with AI and modern web technology",
-  subtitle = "From prototypes to production: AI features, web apps, APIs, and automation built for speed, accessibility, and scale.",
-  primaryHref = "https://wa.me/51989147467?text=Hello,%20I%20am%20interested%20in%20starting%20a%20project%20with%20Tylvra.%20Could%20you%20share%20next%20steps%20and%20your%20availability%20for%20a%20brief%20call%3F",
-  primaryLabel = "Start your project",
+  subtitle = "From prototypes to production: AI features, AI automations with n8n, web apps, and APIs built for speed, accessibility, and scale.",
+  primaryHref = "https://wa.me/51989147467?text=Hello,%20I%20am%20interested%20in%20automating%20processes%20with%20n8n%20and%20AI.%20Could%20you%20share%20next%20steps%20and%20your%20availability%20for%20a%20brief%20call%3F",
+  primaryLabel = "Automate processes",
   secondaryHref = "/#services",
   secondaryLabel = "See services",
-  note = "Now accepting new AI/Web/Software projects",
+  note = "Now accepting new AI automation and Web projects",
 }: Props) {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 768);
+    onResize();
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
   return (
     <section className="relative">
       <Container reveal bgGlow py="lg" center>
         <MaxWidthWrapper reveal size="lg" px="md" align="center">
           <motion.div
             variants={fadeUp(14)}
+            initial={isMobile ? false : "hidden"}
+            whileInView={isMobile ? undefined : "show"}
+            viewport={{ once: true, margin: "-40px" }}
             className="relative overflow-hidden rounded-3xl border border-white/10 bg-neutral-950/60 p-8 shadow-[0_0_0_1px_rgba(255,255,255,0.04)_inset] backdrop-blur md:p-12"
           >
             <div aria-hidden className="pointer-events-none absolute inset-0">
