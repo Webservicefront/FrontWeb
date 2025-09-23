@@ -31,13 +31,15 @@ export default function Hero({
   secondaryHref = "/#services",
   secondaryLabel = "See services",
   chips = [
-    { icon: Zap, label: "AI automations (n8n)" },
+    { icon: Zap, label: "AI automations " },
     { icon: Gauge, label: "Performance-first" },
     { icon: Shield, label: "Security & privacy" },
   ],
 }: Props) {
+  const [mounted, setMounted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
+    setMounted(true);
     const onResize = () => setIsMobile(window.innerWidth < 768);
     onResize();
     window.addEventListener("resize", onResize);
@@ -49,18 +51,20 @@ export default function Hero({
   return (
     <section className="relative overflow-hidden">
       <Container reveal bgGlow py="lg" center>
-        <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-          <motion.div
-            style={{ y: bg.style.y, opacity: bg.style.opacity, scale: bg.style.scale }}
-            className="absolute -top-40 left-1/2 h-[720px] w-[720px] -translate-x-1/2 rounded-full bg-gradient-to-tr from-indigo-500/20 via-sky-500/10 to-cyan-400/10 blur-3xl"
-          />
-        </div>
+        {mounted && !isMobile && (
+          <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
+            <motion.div
+              style={{ y: bg.style.y, opacity: bg.style.opacity, scale: bg.style.scale }}
+              className="absolute -top-40 left-1/2 h-[720px] w-[720px] -translate-x-1/2 rounded-full bg-gradient-to-tr from-indigo-500/20 via-sky-500/10 to-cyan-400/10 blur-3xl"
+            />
+          </div>
+        )}
 
         <MaxWidthWrapper reveal size="lg" px="md" align="center">
           <motion.div
             variants={fadeUp(14)}
-            initial={isMobile ? false : "hidden"}
-            whileInView={isMobile ? undefined : "show"}
+            initial={mounted && !isMobile ? "hidden" : false}
+            whileInView={mounted && !isMobile ? "show" : undefined}
             viewport={{ once: true, margin: "-40px" }}
             className="mx-auto max-w-4xl"
           >
@@ -100,8 +104,8 @@ export default function Hero({
 
             <motion.ul
               variants={staggerContainer(0.04, 0.08)}
-              initial={isMobile ? false : "hidden"}
-              whileInView={isMobile ? undefined : "show"}
+              initial={mounted && !isMobile ? "hidden" : false}
+              whileInView={mounted && !isMobile ? "show" : undefined}
               viewport={{ once: true, margin: "-40px" }}
               className="mx-auto mt-8 flex flex-wrap items-center justify-center gap-2"
             >

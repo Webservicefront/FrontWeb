@@ -39,8 +39,10 @@ export default function FeatureGrid({
   subtitle = "From idea to production: we deliver apps, AI features, and platforms that are fast, accessible, and maintainable.",
   features = defaults,
 }: Props) {
+  const [mounted, setMounted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
+    setMounted(true);
     const onResize = () => setIsMobile(window.innerWidth < 768);
     onResize();
     window.addEventListener("resize", onResize);
@@ -53,8 +55,8 @@ export default function FeatureGrid({
         <MaxWidthWrapper reveal size="lg" px="md" align="center">
           <motion.div
             variants={fadeUp(12)}
-            initial={isMobile ? false : "hidden"}
-            whileInView={isMobile ? undefined : "show"}
+            initial={mounted && !isMobile ? "hidden" : false}
+            whileInView={mounted && !isMobile ? "show" : undefined}
             viewport={{ once: true, margin: "-40px" }}
             className="mx-auto max-w-3xl"
           >
@@ -68,8 +70,8 @@ export default function FeatureGrid({
 
           <motion.ul
             variants={staggerContainer(0.04, 0.08)}
-            initial={isMobile ? false : "hidden"}
-            whileInView={isMobile ? undefined : "show"}
+            initial={mounted && !isMobile ? "hidden" : false}
+            whileInView={mounted && !isMobile ? "show" : undefined}
             viewport={{ once: true, margin: "-40px" }}
             className="mx-auto mt-10 grid w-full gap-4 sm:grid-cols-2 lg:grid-cols-3"
           >

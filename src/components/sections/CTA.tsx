@@ -28,8 +28,10 @@ export default function CTA({
   secondaryLabel = "See services",
   note = "Now accepting new AI automation and Web projects",
 }: Props) {
+  const [mounted, setMounted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
+    setMounted(true);
     const onResize = () => setIsMobile(window.innerWidth < 768);
     onResize();
     window.addEventListener("resize", onResize);
@@ -42,8 +44,8 @@ export default function CTA({
         <MaxWidthWrapper reveal size="lg" px="md" align="center">
           <motion.div
             variants={fadeUp(14)}
-            initial={isMobile ? false : "hidden"}
-            whileInView={isMobile ? undefined : "show"}
+            initial={mounted && !isMobile ? "hidden" : false}
+            whileInView={mounted && !isMobile ? "show" : undefined}
             viewport={{ once: true, margin: "-40px" }}
             className="relative overflow-hidden rounded-3xl border border-white/10 bg-neutral-950/60 p-8 shadow-[0_0_0_1px_rgba(255,255,255,0.04)_inset] backdrop-blur md:p-12"
           >
