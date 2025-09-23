@@ -1,13 +1,15 @@
 // src/app/page.tsx
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import { buildMetadata } from "@/lib/seo";
 import Hero from "@/components/sections/Hero";
-import LogosMarquee from "@/components/sections/LogosMarquee";
-import FeaturesGrid from "@/components/sections/FeaturesGrid";
-import UseCases from "@/components/sections/UseCases";
-import ProcessSteps from "@/components/sections/ProcessSteps";
-import FAQ from "@/components/sections/FAQ";
-import CTA from "@/components/sections/CTA";
+
+const LogosMarquee = dynamic(() => import("@/components/sections/LogosMarquee"));
+const FeatureGrid = dynamic(() => import("@/components/sections/FeaturesGrid"));
+const UseCases = dynamic(() => import("@/components/sections/UseCases"));
+const ProcessSteps = dynamic(() => import("@/components/sections/ProcessSteps"));
+const FAQ = dynamic(() => import("@/components/sections/FAQ"));
+const CTA = dynamic(() => import("@/components/sections/CTA"));
 
 export const metadata: Metadata = buildMetadata({
   title: "%s",
@@ -21,7 +23,7 @@ export default function Page() {
       <LogosMarquee />
 
       <section id="features" className="scroll-mt-32">
-        <FeaturesGrid />
+        <FeatureGrid />
       </section>
 
       <section id="use-cases" className="scroll-mt-32">
