@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 512 512">
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M128 176h256" stroke="#edf1ff" stroke-opacity="0.92" stroke-width="56"/>
+    <path d="M208 176v192" stroke="#edf1ff" stroke-opacity="0.92" stroke-width="56"/>
+    <path d="M304 240l88 88" stroke="#b9c6ff" stroke-opacity="0.95" stroke-width="52"/>
+  </g>
+  <title>Tylvra Favicon</title>
+</svg>

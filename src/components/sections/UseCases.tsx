@@ -1,8 +1,9 @@
+// src/components/sections/UseCases.tsx
 "use client";
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Briefcase, BarChart3, Users2, Shield, ShoppingCart, Globe2, ChevronRight, Sparkles } from "lucide-react";
+import { Rocket, BarChart3, Bot, Workflow, ShoppingCart, FileText, ChevronRight, Sparkles } from "lucide-react";
 import Container from "@/components/primitives/Container";
 import MaxWidthWrapper from "@/components/primitives/MaxWidthWrapper";
 import Icon from "@/components/primitives/Icon";
@@ -28,72 +29,67 @@ type Props = {
 
 const defaults: CaseItem[] = [
   {
-    icon: Briefcase,
-    title: "B2B lead-gen",
-    desc: "High-clarity value prop, authority cues, and frictionless contact flow.",
-    metric: { label: "Leads increase", value: "+38%" },
-    href: "/use-cases/b2b",
-    tag: "Enterprise",
-  },
-  {
-    icon: ShoppingCart,
-    title: "Product landing",
-    desc: "Conversion-focused hero, proof, and crisp feature storytelling.",
-    metric: { label: "CTR uplift", value: "+24%" },
-    href: "/use-cases/landing",
+    icon: Rocket,
+    title: "SaaS landing",
+    desc: "Clear value prop, proof, and focused conversion paths for product-led growth.",
+    metric: { label: "Signups", value: "+28%" },
+    href: "/use-cases/saas-landing",
     tag: "SaaS",
   },
   {
-    icon: Users2,
-    title: "Hiring page",
-    desc: "Team narrative, values, and benefits with credible signals.",
-    metric: { label: "Applicants", value: "2.1×" },
-    href: "/use-cases/careers",
-    tag: "Talent",
-  },
-  {
-    icon: Globe2,
-    title: "Docs hub",
-    desc: "Structured navigation, MDX content, and searchable references.",
-    metric: { label: "Support tickets", value: "−31%" },
-    href: "/use-cases/docs",
-    tag: "DevEx",
+    icon: ShoppingCart,
+    title: "E-commerce",
+    desc: "Optimized product pages, checkout, and analytics with SEO baked in.",
+    metric: { label: "AOV", value: "+14%" },
+    href: "/use-cases/ecommerce",
+    tag: "Retail",
   },
   {
     icon: BarChart3,
-    title: "Campaign microsite",
-    desc: "Fast storytelling, snackable sections, and shareable anchors.",
-    metric: { label: "Time on page", value: "+19%" },
-    href: "/use-cases/microsite",
-    tag: "Marketing",
+    title: "Dashboards & BI",
+    desc: "Data visualizations and admin panels for operational clarity and speed.",
+    metric: { label: "Decision speed", value: "2.0×" },
+    href: "/use-cases/bi",
+    tag: "Data",
   },
   {
-    icon: Shield,
-    title: "Trust & security",
-    desc: "Compliance surfaces, audit-ready pages, and transparent policies.",
-    metric: { label: "Sales velocity", value: "+12%" },
-    href: "/use-cases/security",
-    tag: "Compliance",
+    icon: Bot,
+    title: "AI chatbots",
+    desc: "LLM assistants with RAG, evals, and guardrails for support and onboarding.",
+    metric: { label: "Self-serve rate", value: "+35%" },
+    href: "/use-cases/ai-chatbots",
+    tag: "AI",
+  },
+  {
+    icon: Workflow,
+    title: "Automation",
+    desc: "Workflows, webhooks, and integrations to reduce manual tasks and errors.",
+    metric: { label: "Hours saved", value: "−40%" },
+    href: "/use-cases/automation",
+    tag: "Ops",
+  },
+  {
+    icon: FileText,
+    title: "Technical docs",
+    desc: "Searchable docs hubs with MDX, versioning, and structured navigation.",
+    metric: { label: "Ticket deflection", value: "+30%" },
+    href: "/use-cases/docs",
+    tag: "DevEx",
   },
 ];
 
 export default function UseCases({
-  eyebrow = "Use cases",
-  title = "Real outcomes across scenarios",
-  subtitle = "Targeted pages that convert better, explain faster, and feel more polished.",
+  title = "Outcomes across common scenarios",
+  subtitle = "Pages and apps that convert better, explain faster, and scale with your roadmap.",
   items = defaults,
   ctaHref = "/use-cases",
-  ctaLabel = "Explore all use cases",
 }: Props) {
   return (
     <section className="relative">
       <Container reveal bgGlow py="lg">
         <MaxWidthWrapper reveal size="lg" px="md" align="center">
           <motion.div variants={fadeUp(12)} className="mx-auto max-w-3xl">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/80">
-              <Icon icon={Sparkles} variant="soft" tone="primary" size="xs" rounded="full" reveal />
-              <span>{eyebrow}</span>
-            </div>
+            
             <h2 className="text-balance text-3xl font-semibold leading-tight tracking-tight text-white md:text-4xl">
               {title}
             </h2>
@@ -160,12 +156,9 @@ export default function UseCases({
           <motion.div variants={fadeUp(12)} className="mt-10">
             <Link href={ctaHref}>
               <motion.span
-                variants={tapPress}
-                whileTap="tap"
-                className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white hover:bg-white/10"
+               
               >
-                {ctaLabel}
-                <ChevronRight className="size-4" />
+
               </motion.span>
             </Link>
           </motion.div>

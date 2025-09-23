@@ -1,15 +1,14 @@
+// src/components/sections/CTA.tsx
 "use client";
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Container from "@/components/primitives/Container";
 import MaxWidthWrapper from "@/components/primitives/MaxWidthWrapper";
-import Icon from "@/components/primitives/Icon";
 import { fadeUp, hoverLift, tapPress } from "@/components/animations/variants";
 
 type Props = {
-  eyebrow?: string;
   title?: string;
   subtitle?: string;
   primaryHref?: string;
@@ -20,14 +19,13 @@ type Props = {
 };
 
 export default function CTA({
-  eyebrow = "Ready to build",
-  title = "Launch a refined, fast, and modern website",
-  subtitle = "We craft minimal, high-performance sites with meaningful motion and world-class UX.",
-  primaryHref = "/contact",
-  primaryLabel = "Start a project",
-  secondaryHref = "/features",
-  secondaryLabel = "See features",
-  note = "Q4 production slots available",
+  title = "Build with AI and modern web technology",
+  subtitle = "From prototypes to production: AI features, web apps, APIs, and automation built for speed, accessibility, and scale.",
+  primaryHref = "https://wa.me/51989147467?text=Hello,%20I%20am%20interested%20in%20starting%20a%20project%20with%20Tylvra.%20Could%20you%20share%20next%20steps%20and%20your%20availability%20for%20a%20brief%20call%3F",
+  primaryLabel = "Start your project",
+  secondaryHref = "/#services",
+  secondaryLabel = "See services",
+  note = "Now accepting new AI/Web/Software projects",
 }: Props) {
   return (
     <section className="relative">
@@ -42,11 +40,6 @@ export default function CTA({
             </div>
 
             <div className="flex flex-col items-center gap-6">
-              <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/80">
-                <Icon icon={Sparkles} variant="soft" tone="primary" size="xs" rounded="full" reveal />
-                <span>{eyebrow}</span>
-              </div>
-
               <h2 className="max-w-3xl text-balance text-3xl font-semibold leading-tight tracking-tight text-white md:text-4xl">
                 {title}
               </h2>
@@ -56,7 +49,7 @@ export default function CTA({
               </p>
 
               <div className="mt-2 flex flex-col items-center gap-3 sm:flex-row">
-                <Link href={primaryHref}>
+                <a href={primaryHref} target="_blank" rel="noreferrer">
                   <motion.span
                     variants={hoverLift}
                     initial="rest"
@@ -67,7 +60,7 @@ export default function CTA({
                     {primaryLabel}
                     <ArrowRight className="size-4" />
                   </motion.span>
-                </Link>
+                </a>
 
                 <Link href={secondaryHref}>
                   <motion.span

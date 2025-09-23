@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="32" y="32" width="448" height="448" rx="96" fill="none" stroke="#e4e9ff" stroke-opacity="0.35" stroke-width="16"/>
+    <path d="M128 176h256" stroke="#edf1ff" stroke-opacity="0.88" stroke-width="40"/>
+    <path d="M208 176v192" stroke="#edf1ff" stroke-opacity="0.88" stroke-width="40"/>
+    <path d="M304 232l96 96" stroke="#b9c6ff" stroke-opacity="0.9" stroke-width="36"/>
+    <path d="M304 328l-48 48" stroke="#edf1ff" stroke-opacity="0.88" stroke-width="36"/>
+  </g>
+  <title>Tylvra Mark</title>
+</svg>

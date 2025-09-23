@@ -1,3 +1,4 @@
+// src/components/sections/FeatureGrid.tsx
 "use client";
 
 import { motion } from "framer-motion";
@@ -21,20 +22,19 @@ type Props = {
 };
 
 const defaults: Feature[] = [
-  { icon: Rocket, title: "Performance-first", desc: "Lighthouse-friendly builds with lean assets, responsive images, and instant navigation." },
-  { icon: Shield, title: "Accessible by design", desc: "WCAG-minded components, focus states, and motion preferences respected." },
-  { icon: Zap, title: "Meaningful motion", desc: "Subtle interactions and scroll choreography powered by Framer Motion." },
-  { icon: Gauge, title: "Scalable system", desc: "Design tokens, variants, and composable primitives for growth." },
-  { icon: Cog, title: "Maintainable stack", desc: "Typed components, predictable state, and clean project structure." },
-  { icon: Globe2, title: "SEO ready", desc: "Structured data, metadata, sitemap, and social previews." },
-  { icon: LayoutDashboard, title: "Polished UI", desc: "Crisp layouts, refined spacing, and crafted micro-interactions." },
-  { icon: Cpu, title: "Modern tooling", desc: "Next.js, Tailwind, and MDX content pipelines tuned for speed." },
+  { icon: Rocket, title: "Web & Mobile Apps", desc: "Cross-platform apps and modern web experiences built for speed, reliability, and scale." },
+  { icon: Cpu, title: "AI Integration (LLMs, RAG)", desc: "Chatbots, embeddings, vector search, and retrieval-augmented generation with evals and guardrails." },
+  { icon: Cog, title: "APIs & Backends", desc: "Typed services, REST/GraphQL, authentication, rate limiting, and background jobs." },
+  { icon: Globe2, title: "E-commerce", desc: "Product catalogs, Stripe payments, checkout flows, and analytics with SEO built in." },
+  { icon: Gauge, title: "SEO & Performance", desc: "Core Web Vitals, image pipelines, code splitting, caching, and CDN optimization." },
+  { icon: LayoutDashboard, title: "Dashboards & BI", desc: "Interactive dashboards, admin panels, and data visualizations for clear decision making." },
+  { icon: Shield, title: "Security & Compliance", desc: "RBAC, audit logs, secrets management, privacy controls, and best-practice hardening." },
+  { icon: Zap, title: "Automation & Integrations", desc: "Workflow automation, third-party APIs, webhooks, and data sync across your stack." },
 ];
 
 export default function FeatureGrid({
-  eyebrow = "Capabilities",
-  title = "Everything you need to ship a modern site",
-  subtitle = "A focused toolkit that blends aesthetics, speed, and clarity.",
+  title = "Capabilities for AI and modern web",
+  subtitle = "From idea to production: we deliver apps, AI features, and platforms that are fast, accessible, and maintainable.",
   features = defaults,
 }: Props) {
   return (
@@ -42,10 +42,6 @@ export default function FeatureGrid({
       <Container reveal bgGlow py="lg">
         <MaxWidthWrapper reveal size="lg" px="md" align="center">
           <motion.div variants={fadeUp(12)} className="mx-auto max-w-3xl">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/80">
-              <Icon icon={Sparkles} variant="soft" tone="primary" size="xs" rounded="full" reveal />
-              <span>{eyebrow}</span>
-            </div>
             <h2 className="text-balance text-3xl font-semibold leading-tight tracking-tight text-white md:text-4xl">
               {title}
             </h2>

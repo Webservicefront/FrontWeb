@@ -1,3 +1,4 @@
+// src/components/sections/ProcessSteps.tsx
 "use client";
 
 import Link from "next/link";
@@ -25,31 +26,26 @@ type Props = {
 };
 
 const defaults: Step[] = [
-  { icon: Target, title: "Discovery", desc: "Goals, audience, and competitive landscape to define the promise of the site.", caption: "60–90 min" },
-  { icon: Lightbulb, title: "Content & IA", desc: "Sharp messaging, sitemap, and narrative to structure the experience.", caption: "1–2 days" },
-  { icon: Layout, title: "Wireframes", desc: "Low-fi flows focused on hierarchy, readability, and conversion paths.", caption: "1–2 days" },
-  { icon: Code2, title: "Design System", desc: "Tokens, components, and motion language for consistency and speed.", caption: "2–3 days" },
-  { icon: Beaker, title: "Build & QA", desc: "Accessible, performant implementation with meticulous testing.", caption: "3–5 days" },
-  { icon: Rocket, title: "Launch", desc: "Deployment, analytics, and polish with a clear post-launch plan.", caption: "Same day" },
+  { icon: Target, title: "Discovery", desc: "Goals, users, constraints, and success metrics to align scope and priorities.", caption: "60–90 min" },
+  { icon: Lightbulb, title: "Technical scoping", desc: "Requirements, stack choices, and a delivery plan with clear milestones.", caption: "1–2 days" },
+  { icon: Layout, title: "UX & wireframes", desc: "Key flows and information architecture for web and mobile experiences.", caption: "1–2 days" },
+  { icon: Code2, title: "Architecture & AI", desc: "APIs, data models, and AI integration (LLMs, RAG, evals, guardrails).", caption: "2–3 days" },
+  { icon: Beaker, title: "Build & QA", desc: "Implementation, tests, accessibility checks, and performance budgets.", caption: "3–5 days" },
+  { icon: Rocket, title: "Launch & handoff", desc: "Deployment, observability, docs, and a roadmap for iteration.", caption: "Same day" },
 ];
 
 export default function ProcessSteps({
-  eyebrow = "Process",
-  title = "A clear, fast path from idea to launch",
-  subtitle = "Focused collaboration, measurable outcomes, and a calm, predictable rhythm.",
+  title = "A clear, fast path from idea to production",
+  subtitle = "Focused collaboration and reliable delivery—covering discovery, UX, architecture, AI integration, build, and launch.",
   steps = defaults,
   ctaHref = "/process",
-  ctaLabel = "See the full process",
 }: Props) {
   return (
     <section className="relative">
       <Container reveal bgGlow py="lg">
         <MaxWidthWrapper reveal size="lg" px="md" align="center">
           <motion.div variants={fadeUp(12)} className="mx-auto max-w-3xl">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/80">
-              <Icon icon={Rocket} variant="soft" tone="primary" size="xs" rounded="full" reveal />
-              <span>{eyebrow}</span>
-            </div>
+            
             <h2 className="text-balance text-3xl font-semibold leading-tight tracking-tight text-white md:text-4xl">
               {title}
             </h2>
@@ -101,12 +97,8 @@ export default function ProcessSteps({
           <motion.div variants={fadeUp(12)} className="mt-10">
             <Link href={ctaHref}>
               <motion.span
-                variants={tapPress}
-                whileTap="tap"
-                className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-white hover:bg-white/10"
+               
               >
-                {ctaLabel}
-                <ArrowRight className="size-4" />
               </motion.span>
             </Link>
           </motion.div>
@@ -115,4 +107,3 @@ export default function ProcessSteps({
     </section>
   );
 }
-    

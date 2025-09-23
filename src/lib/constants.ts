@@ -1,17 +1,17 @@
 // src/lib/constants.ts
 
 export const SITE = {
-  name: "Your Brand",
-  tagline: "Design. Motion. Clarity.",
-  url: process.env.NEXT_PUBLIC_SITE_URL || "https://yourbrand.com",
+  name: "Tylvra",
+  tagline: "AI, Web, and Software Development.",
+  url: process.env.NEXT_PUBLIC_SITE_URL || "https://tylvra.com",
   locale: "en",
-  twitter: "@yourbrand",
+  twitter: "@tylvra",
   ogImage: "/og.jpg",
 };
 
 export const CONTACT = {
-  email: "hello@yourbrand.com",
-  phone: "+51 999 999 999",
+  email: "jorge.arellano@utec.edu.pe",
+  phone: "+51 989 147 467",
   location: "Lima, Peru",
 };
 
@@ -114,8 +114,8 @@ export const PATHS = {
 };
 
 export const SEO_DEFAULTS = {
-  titleTemplate: "%s • Your Brand",
+  titleTemplate: "%s • Tylvra",
   description:
-    "Refined, fast websites with meaningful motion, accessibility by default, and a scalable design system.",
+    "Tylvra delivers high-performance software: AI solutions, modern web apps, robust APIs, and scalable systems with accessibility and SEO built in.",
   twitterCard: "summary_large_image",
 };

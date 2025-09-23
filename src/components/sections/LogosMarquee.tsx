@@ -1,17 +1,15 @@
+// src/components/sections/LogosMarquee.tsx
 "use client";
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { Sparkles } from "lucide-react";
 import Container from "@/components/primitives/Container";
 import MaxWidthWrapper from "@/components/primitives/MaxWidthWrapper";
-import Icon from "@/components/primitives/Icon";
 import { fadeUp, staggerContainer, hoverLift, marqueeX } from "@/components/animations/variants";
 
 type Logo = { src: string; alt: string; width?: number; height?: number };
 
 type Props = {
-  eyebrow?: string;
   title?: string;
   logos?: Logo[];
   duration?: number;
@@ -20,14 +18,16 @@ type Props = {
 };
 
 const defaults: Logo[] = [
-  { src: "/logos/partners/alpha.svg", alt: "Alpha", width: 120, height: 40 },
-  { src: "/logos/partners/beta.svg", alt: "Beta", width: 120, height: 40 },
-  { src: "/logos/partners/gamma.svg", alt: "Gamma", width: 120, height: 40 },
-  { src: "/logos/partners/delta.svg", alt: "Delta", width: 120, height: 40 },
-  { src: "/logos/partners/omega.svg", alt: "Omega", width: 120, height: 40 },
-  { src: "/logos/partners/sigma.svg", alt: "Sigma", width: 120, height: 40 },
-  { src: "/logos/partners/theta.svg", alt: "Theta", width: 120, height: 40 },
-  { src: "/logos/partners/epsilon.svg", alt: "Epsilon", width: 120, height: 40 },
+  { src: "/icons/react.svg", alt: "React", width: 120, height: 40 },
+  { src: "/icons/nextjs.svg", alt: "Next.js", width: 120, height: 40 },
+  { src: "/icons/typescript.svg", alt: "TypeScript", width: 120, height: 40 },
+  { src: "/icons/tailwind.svg", alt: "Tailwind CSS", width: 120, height: 40 },
+  { src: "/icons/nodejs.svg", alt: "Node.js", width: 120, height: 40 },
+  { src: "/icons/supabase.svg", alt: "Supabase", width: 120, height: 40 },
+  { src: "/icons/appwrite.svg", alt: "Appwrite", width: 120, height: 40 },
+  { src: "/icons/postgres.svg", alt: "PostgreSQL", width: 120, height: 40 },
+  { src: "/icons/aws.svg", alt: "AWS", width: 120, height: 40 },
+  { src: "/icons/vercel.svg", alt: "Vercel", width: 120, height: 40 },
 ];
 
 function dup<T>(arr: T[]) {
@@ -35,8 +35,7 @@ function dup<T>(arr: T[]) {
 }
 
 export default function LogosMarquee({
-  eyebrow = "Trusted by teams",
-  title = "Brands we've partnered with",
+  title = "Technologies we use",
   logos = defaults,
   duration = 18,
   grayscale = true,
@@ -54,10 +53,6 @@ export default function LogosMarquee({
       <Container reveal bgGlow py="lg">
         <MaxWidthWrapper reveal size="lg" px="md" align="center">
           <motion.div variants={fadeUp(12)} className="mx-auto max-w-3xl">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/80">
-              <Icon icon={Sparkles} variant="soft" tone="primary" size="xs" rounded="full" reveal />
-              <span>{eyebrow}</span>
-            </div>
             <h2 className="text-balance text-3xl font-semibold leading-tight tracking-tight text-white md:text-4xl">
               {title}
             </h2>

@@ -7,12 +7,13 @@ import { usePathname } from "next/navigation";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { Menu, X, ArrowRight } from "lucide-react";
 import { fadeDown, hoverLift, tapPress } from "@/components/animations/variants";
+import Image from "next/image";
 
 type NavItem = { label: string; href: string; disabled?: boolean };
 
 const primary: NavItem[] = [
   { label: "Home", href: "/" },
-  { label: "Features", href: "/#features" },
+  { label: "Services", href: "/#services" },
   { label: "Use cases", href: "/#use-cases" },
   { label: "Process", href: "/#process" },
   { label: "Pricing", href: "#", disabled: true },
@@ -75,17 +76,20 @@ export default function Header() {
           ].join(" ")}
         >
           <div className="flex items-center gap-3">
-            <Link href="/" className="flex items-center gap-3">
-              <span className="grid size-9 place-content-center rounded-xl bg-white text-sm font-semibold text-neutral-900">
-                JB
-              </span>
+          <Link href="/" className="flex items-center gap-3">
+  <Image
+    src="/brand/tylvra-mark-soft.svg"
+    alt="Tylvra"
+    width={36}
+    height={36}
+    priority
+  />             
               <span className="hidden text-[15px] font-medium tracking-tight text-white sm:inline">
-                Apolo´s
+                Tylvra
               </span>
             </Link>
           </div>
 
-          {/* Desktop nav (no changes) */}
           <nav className="hidden items-center gap-1 md:flex">
             {primary.map((item) =>
               item.disabled ? (
@@ -137,7 +141,6 @@ export default function Header() {
         </motion.div>
       </div>
 
-      {/* Mobile aside */}
       <motion.aside
         initial={false}
         animate={open ? "show" : "hidden"}
@@ -156,11 +159,15 @@ export default function Header() {
           className="absolute right-0 top-0 h-full w-[84%] max-w-sm border-l border-white/10 bg-neutral-950 p-6 shadow-2xl"
         >
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <span className="grid size-9 place-content-center rounded-xl bg-white text-sm font-semibold text-neutral-900">
-                JM
-              </span>
-              <span className="text-[15px] font-medium tracking-tight text-white">Your Brand</span>
+          <div className="flex items-center gap-3">
+  <Image
+    src="/brand/tylvra-mark-soft.svg"
+    alt="Tylvra"
+    width={36}
+    height={36}
+  />
+  <span className="text-[15px] font-medium tracking-tight text-white">Tylvra</span>
+
             </div>
             <motion.button
               variants={tapPress}
@@ -194,7 +201,6 @@ export default function Header() {
                       className={[
                         "block rounded-lg px-3 py-2 text-base transition",
                         "border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30",
-                        // Igualar estilos al resto del sitio (oscuro, sin pills blancas)
                         isActive(item.href)
                           ? "border-white/20 bg-white/10 text-white"
                           : "border-white/10 bg-transparent text-neutral-300/90 hover:bg-white/5 hover:text-white",
@@ -208,7 +214,6 @@ export default function Header() {
             </ul>
 
             <Link href="/#contact" onClick={() => setOpen(false)} className="mt-6 block">
-              {/* Mantengo el CTA blanco como en desktop; si lo quieres oscuro también, dime y lo cambio */}
               <motion.span
                 variants={hoverLift}
                 initial="rest"
