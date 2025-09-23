@@ -5,14 +5,14 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import Container from "@/components/primitives/Container";
 import MaxWidthWrapper from "@/components/primitives/MaxWidthWrapper";
-import { fadeUp, staggerContainer, hoverLift, marqueeX } from "@/components/animations/variants";
+import { fadeUp, staggerContainer } from "@/components/animations/variants";
 
 type Logo = { src: string; alt: string; width?: number; height?: number };
 
 type Props = {
   title?: string;
   logos?: Logo[];
-  duration?: number;
+  durationMs?: number;
   grayscale?: boolean;
   gap?: string;
 };
@@ -37,14 +37,14 @@ function dup<T>(arr: T[]) {
 export default function LogosMarquee({
   title = "Technologies we use",
   logos = defaults,
-  duration = 18,
+  durationMs = 20000,
   grayscale = true,
-  gap = "gap-10",
+  gap = "gap-8",
 }: Props) {
   const row = dup(logos);
   const rowAlt = dup([...logos].reverse());
   const imgClass = [
-    "opacity-80 transition",
+    "opacity-80 transition will-change-transform",
     grayscale ? "grayscale hover:grayscale-0 hover:opacity-100" : "hover:opacity-100",
   ].join(" ");
 
@@ -59,28 +59,26 @@ export default function LogosMarquee({
           </motion.div>
 
           <motion.div
-            variants={staggerContainer(0.08, 0.1)}
+            variants={staggerContainer(0.06, 0.08)}
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, margin: "-80px" }}
-            className="relative mt-10 overflow-hidden"
+            viewport={{ once: true, margin: "-60px" }}
+            className="relative mt-8 overflow-hidden"
           >
-            <div aria-hidden className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-neutral-950 to-transparent" />
-            <div aria-hidden className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-neutral-950 to-transparent" />
+            <div aria-hidden className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-neutral-950 to-transparent" />
+            <div aria-hidden className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-neutral-950 to-transparent" />
 
             <motion.div variants={fadeUp(10)} className="relative">
-              <motion.div
-                variants={marqueeX(50, duration)}
-                animate="animate"
-                className={`flex ${gap} w-max items-center`}
+              <div
+                className={`flex ${gap} w-max items-center [animation:marquee_linear_infinite]`}
+                style={{
+                  animationDuration: `${durationMs}ms`,
+                }}
               >
                 {row.map((l, i) => (
-                  <motion.div
+                  <div
                     key={`r1-${i}-${l.src}`}
-                    variants={hoverLift}
-                    initial="rest"
-                    whileHover="hover"
-                    className="flex items-center justify-center rounded-xl border border-white/10 bg-white/5 px-4 py-3"
+                    className="flex items-center justify-center rounded-xl border border-white/10 bg-white/5 px-4 py-3 will-change-transform"
                   >
                     <Image
                       src={l.src}
@@ -88,26 +86,27 @@ export default function LogosMarquee({
                       width={l.width ?? 120}
                       height={l.height ?? 40}
                       className={imgClass}
-                      priority={i < 4}
+                      priority={i < 2}
+                      loading={i < 2 ? "eager" : "lazy"}
+                      decoding="async"
+                      sizes="(max-width: 640px) 96px, 120px"
                     />
-                  </motion.div>
+                  </div>
                 ))}
-              </motion.div>
+              </div>
             </motion.div>
 
             <motion.div variants={fadeUp(10)} className="relative mt-4">
-              <motion.div
-                animate={{ x: ["-50%", "0%"] }}
-                transition={{ duration, ease: "linear", repeat: Infinity }}
-                className={`flex ${gap} w-max items-center`}
+              <div
+                className={`flex ${gap} w-max items-center [animation:marqueeAlt_linear_infinite]`}
+                style={{
+                  animationDuration: `${durationMs}ms`,
+                }}
               >
                 {rowAlt.map((l, i) => (
-                  <motion.div
+                  <div
                     key={`r2-${i}-${l.src}`}
-                    variants={hoverLift}
-                    initial="rest"
-                    whileHover="hover"
-                    className="flex items-center justify-center rounded-xl border border-white/10 bg-white/5 px-4 py-3"
+                    className="flex items-center justify-center rounded-xl border border-white/10 bg-white/5 px-4 py-3 will-change-transform"
                   >
                     <Image
                       src={l.src}
@@ -115,14 +114,53 @@ export default function LogosMarquee({
                       width={l.width ?? 120}
                       height={l.height ?? 40}
                       className={imgClass}
+                      loading="lazy"
+                      decoding="async"
+                      sizes="(max-width: 640px) 96px, 120px"
                     />
-                  </motion.div>
+                  </div>
                 ))}
-              </motion.div>
+              </div>
             </motion.div>
           </motion.div>
         </MaxWidthWrapper>
       </Container>
+
+      <style jsx>{`
+        @keyframes marquee {
+          0% {
+            transform: translate3d(0, 0, 0);
+          }
+          100% {
+            transform: translate3d(-50%, 0, 0);
+          }
+        }
+        @keyframes marqueeAlt {
+          0% {
+            transform: translate3d(-50%, 0, 0);
+          }
+          100% {
+            transform: translate3d(0, 0, 0);
+          }
+        }
+        :global(.\[animation\:marquee_linear_infinite\]) {
+          animation-name: marquee;
+          animation-timing-function: linear;
+          animation-iteration-count: infinite;
+        }
+        :global(.\[animation\:marqueeAlt_linear_infinite\]) {
+          animation-name: marqueeAlt;
+          animation-timing-function: linear;
+          animation-iteration-count: infinite;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          :global(.\[animation\:marquee_linear_infinite\]),
+          :global(.\[animation\:marqueeAlt_linear_infinite\]) {
+            animation: none;
+            transform: none;
+          }
+        }
+      `}</style>
     </section>
   );
 }
