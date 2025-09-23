@@ -7,7 +7,7 @@ import Container from "@/components/primitives/Container";
 import MaxWidthWrapper from "@/components/primitives/MaxWidthWrapper";
 import { fadeUp, staggerContainer } from "@/components/animations/variants";
 
-type Logo = { src: string; alt: string; width?: number; height?: number };
+type Logo = { src: string; alt: string };
 
 type Props = {
   title?: string;
@@ -18,16 +18,16 @@ type Props = {
 };
 
 const defaults: Logo[] = [
-  { src: "/icons/react.svg", alt: "React", width: 120, height: 40 },
-  { src: "/icons/nextjs.svg", alt: "Next.js", width: 120, height: 40 },
-  { src: "/icons/typescript.svg", alt: "TypeScript", width: 120, height: 40 },
-  { src: "/icons/tailwind.svg", alt: "Tailwind CSS", width: 120, height: 40 },
-  { src: "/icons/nodejs.svg", alt: "Node.js", width: 120, height: 40 },
-  { src: "/icons/supabase.svg", alt: "Supabase", width: 120, height: 40 },
-  { src: "/icons/appwrite.svg", alt: "Appwrite", width: 120, height: 40 },
-  { src: "/icons/postgres.svg", alt: "PostgreSQL", width: 120, height: 40 },
-  { src: "/icons/aws.svg", alt: "AWS", width: 120, height: 40 },
-  { src: "/icons/vercel.svg", alt: "Vercel", width: 120, height: 40 },
+  { src: "/icons/react.svg", alt: "React" },
+  { src: "/icons/nextjs.svg", alt: "Next.js" },
+  { src: "/icons/typescript.svg", alt: "TypeScript" },
+  { src: "/icons/tailwind.svg", alt: "Tailwind CSS" },
+  { src: "/icons/nodejs.svg", alt: "Node.js" },
+  { src: "/icons/supabase.svg", alt: "Supabase" },
+  { src: "/icons/appwrite.svg", alt: "Appwrite" },
+  { src: "/icons/postgres.svg", alt: "PostgreSQL" },
+  { src: "/icons/aws.svg", alt: "AWS" },
+  { src: "/icons/vercel.svg", alt: "Vercel" },
 ];
 
 function dup<T>(arr: T[]) {
@@ -39,14 +39,17 @@ export default function LogosMarquee({
   logos = defaults,
   durationMs = 20000,
   grayscale = true,
-  gap = "gap-8",
+  gap = "gap-6 sm:gap-8",
 }: Props) {
   const row = dup(logos);
   const rowAlt = dup([...logos].reverse());
   const imgClass = [
-    "opacity-80 transition will-change-transform",
+    "object-contain p-2 opacity-80 transition",
     grayscale ? "grayscale hover:grayscale-0 hover:opacity-100" : "hover:opacity-100",
   ].join(" ");
+
+  const cardClass =
+    "relative flex h-16 w-28 sm:h-20 sm:w-32 items-center justify-center rounded-xl border border-white/10 bg-white/5";
 
   return (
     <section className="relative">
@@ -71,25 +74,19 @@ export default function LogosMarquee({
             <motion.div variants={fadeUp(10)} className="relative">
               <div
                 className={`flex ${gap} w-max items-center [animation:marquee_linear_infinite]`}
-                style={{
-                  animationDuration: `${durationMs}ms`,
-                }}
+                style={{ animationDuration: `${durationMs}ms` }}
               >
                 {row.map((l, i) => (
-                  <div
-                    key={`r1-${i}-${l.src}`}
-                    className="flex items-center justify-center rounded-xl border border-white/10 bg-white/5 px-4 py-3 will-change-transform"
-                  >
+                  <div key={`r1-${i}-${l.src}`} className={cardClass}>
                     <Image
                       src={l.src}
                       alt={l.alt}
-                      width={l.width ?? 120}
-                      height={l.height ?? 40}
+                      fill
                       className={imgClass}
                       priority={i < 2}
                       loading={i < 2 ? "eager" : "lazy"}
                       decoding="async"
-                      sizes="(max-width: 640px) 96px, 120px"
+                      sizes="(max-width: 640px) 112px, 128px"
                     />
                   </div>
                 ))}
@@ -99,24 +96,18 @@ export default function LogosMarquee({
             <motion.div variants={fadeUp(10)} className="relative mt-4">
               <div
                 className={`flex ${gap} w-max items-center [animation:marqueeAlt_linear_infinite]`}
-                style={{
-                  animationDuration: `${durationMs}ms`,
-                }}
+                style={{ animationDuration: `${durationMs}ms` }}
               >
                 {rowAlt.map((l, i) => (
-                  <div
-                    key={`r2-${i}-${l.src}`}
-                    className="flex items-center justify-center rounded-xl border border-white/10 bg-white/5 px-4 py-3 will-change-transform"
-                  >
+                  <div key={`r2-${i}-${l.src}`} className={cardClass}>
                     <Image
                       src={l.src}
                       alt={l.alt}
-                      width={l.width ?? 120}
-                      height={l.height ?? 40}
+                      fill
                       className={imgClass}
                       loading="lazy"
                       decoding="async"
-                      sizes="(max-width: 640px) 96px, 120px"
+                      sizes="(max-width: 640px) 112px, 128px"
                     />
                   </div>
                 ))}
