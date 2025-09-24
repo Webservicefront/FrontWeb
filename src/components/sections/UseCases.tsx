@@ -136,10 +136,7 @@ export default function UseCases({
                         <span className="text-[12px] font-semibold text-white">{item.metric.value}</span>
                       </div>
                       <Link href={item.href}>
-                        <span className="inline-flex items-center gap-1 rounded-lg border border-white/10 bg-white/5 px-2 py-1 text-xs font-semibold text-white hover:bg-white/10">
-                          Learn more
-                          <ChevronRight className="size-3.5" />
-                        </span>
+                        
                       </Link>
                     </div>
 
@@ -192,8 +189,6 @@ export default function UseCases({
                           whileTap="tap"
                           className="inline-flex items-center gap-1 rounded-lg border border-white/10 bg-white/5 px-2 py-1 text-xs font-semibold text-white hover:bg-white/10"
                         >
-                          Learn more
-                          <ChevronRight className="size-3.5" />
                         </motion.span>
                       </Link>
                     </div>
