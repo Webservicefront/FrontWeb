@@ -40,26 +40,36 @@ export default function MobileMenu({ open, items, onClose, brand, cta, activeHre
         onClick={onClose}
         className="absolute inset-0 bg-black/60 backdrop-blur-sm"
       />
+
+      {/* Panel: claro/oscuro con buen contraste */}
       <motion.div
         variants={{ hidden: { x: "100%" }, show: { x: 0 } }}
         transition={{ duration: 0.28, ease: [0.2, 0.8, 0.2, 1] }}
-        className="absolute right-0 top-0 h-full w-[84%] max-w-sm border-l border-white/10 bg-neutral-950 p-6 shadow-2xl"
+        className="absolute right-0 top-0 h-full w-[84%] max-w-sm
+                   border-l border-gray-200 bg-white text-gray-900
+                   p-6 shadow-2xl
+                   dark:border-white/10 dark:bg-neutral-950 dark:text-gray-100"
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="grid size-9 place-content-center rounded-xl bg-white text-sm font-semibold text-neutral-900">
+            <span className="grid size-9 place-content-center rounded-xl
+                             bg-gray-900 text-white text-sm font-semibold
+                             dark:bg-white dark:text-neutral-900">
               {brand?.initials ?? "JB"}
             </span>
-            <span className="text-[15px] font-medium tracking-tight text-white">
+            <span className="text-[15px] font-medium tracking-tight text-gray-900 dark:text-white">
               {brand?.name ?? "Your Brand"}
             </span>
           </div>
+
           <motion.button
             variants={tapPress}
             whileTap="tap"
             aria-label="Close"
             onClick={onClose}
-            className="inline-flex items-center justify-center rounded-lg border border-white/10 bg-white/5 p-2 text-white"
+            className="inline-flex items-center justify-center rounded-lg
+                       border border-gray-300 bg-white p-2 text-gray-900 hover:bg-gray-50
+                       dark:border-white/10 dark:bg-white/5 dark:text-white"
           >
             <X className="size-5" />
           </motion.button>
@@ -79,12 +89,16 @@ export default function MobileMenu({ open, items, onClose, brand, cta, activeHre
                   href={item.href}
                   onClick={onClose}
                   className={[
-                    "block rounded-lg px-3 py-2 text-base transition",
-                    "border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30",
-                    // colores consistentes con el resto del sitio (oscuro, sin “pill” blanca)
+                    "block rounded-xl px-4 py-3 text-base transition",
+                    "border focus-visible:outline-none",
+                    "focus-visible:ring-2 focus-visible:ring-gray-400/50 dark:focus-visible:ring-white/30",
                     active
-                      ? "border-white/20 bg-white/10 text-white"
-                      : "border-white/10 bg-transparent text-neutral-300/90 hover:bg-white/5 hover:text-white",
+                      ? // Activo
+                        "border-gray-300 bg-gray-100 text-gray-900 " +
+                        "dark:border-white/20 dark:bg-white/10 dark:text-white"
+                      : // Inactivo
+                        "border-gray-200 bg-white text-gray-900 hover:bg-gray-50 " +
+                        "dark:border-white/10 dark:bg-transparent dark:text-neutral-300/90 dark:hover:bg-white/5 dark:hover:text-white",
                   ].join(" ")}
                 >
                   {item.label}
@@ -101,7 +115,10 @@ export default function MobileMenu({ open, items, onClose, brand, cta, activeHre
               initial="rest"
               whileHover="hover"
               whileTap="tap"
-              className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-white px-4 py-2 text-sm font-semibold text-neutral-900 shadow-sm"
+              className="inline-flex w-full items-center justify-center gap-2 rounded-xl
+                         border border-gray-300 bg-gray-900 px-4 py-3 text-sm font-semibold
+                         text-white shadow-sm hover:bg-black
+                         dark:border-white/10 dark:bg-white dark:text-neutral-900 dark:hover:bg-gray-100"
             >
               {cta.label}
               <ArrowRight className="size-4" />
@@ -109,9 +126,12 @@ export default function MobileMenu({ open, items, onClose, brand, cta, activeHre
           </Link>
         )}
 
-        <div className="mt-6 rounded-xl border border-white/10 bg-white/5 p-4">
-          <div className="text-xs uppercase tracking-wide text-neutral-300">Availability</div>
-          <div className="mt-1 text-sm text-white">Q4 slots open</div>
+        <div className="mt-6 rounded-xl border border-gray-200 bg-gray-50 p-4
+                        dark:border-white/10 dark:bg-white/5">
+          <div className="text-xs uppercase tracking-wide text-gray-600 dark:text-neutral-300">
+            Availability
+          </div>
+          <div className="mt-1 text-sm text-gray-900 dark:text-white">Q4 slots open</div>
         </div>
       </motion.div>
     </motion.aside>

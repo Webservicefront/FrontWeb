@@ -76,15 +76,15 @@ export default function Header() {
           ].join(" ")}
         >
           <div className="flex items-center gap-3">
-          <Link href="/" className="flex items-center gap-3">
-  <Image
-    src="/brand/tylvra-mark-soft.svg"
-    alt="Tylvra"
-    width={36}
-    height={36}
-    priority
-  />             
-              <span className="hidden text-[15px] font-medium tracking-tight text-white sm:inline">
+            <Link href="/" className="flex items-center gap-3">
+              <Image
+                src="/brand/tylvra-mark-soft.svg"
+                alt="Tylvra"
+                width={36}
+                height={36}
+                priority
+              />
+              <span className="hidden text-[15px] font-medium tracking-tight text-gray-900 dark:text-white sm:inline">
                 Tylvra
               </span>
             </Link>
@@ -97,7 +97,7 @@ export default function Header() {
                   key={item.label}
                   aria-disabled="true"
                   title="Coming soon"
-                  className="cursor-not-allowed rounded-lg px-3 py-2 text-sm text-neutral-500/60"
+                  className="cursor-not-allowed rounded-lg px-3 py-2 text-sm text-gray-500 dark:text-neutral-500"
                 >
                   {item.label}
                 </span>
@@ -107,7 +107,9 @@ export default function Header() {
                   href={item.href}
                   className={[
                     "rounded-lg px-3 py-2 text-sm transition",
-                    isActive(item.href) ? "text-white" : "text-neutral-300/90 hover:text-white",
+                    isActive(item.href)
+                      ? "text-gray-900 dark:text-white"
+                      : "text-gray-700 hover:text-gray-900 dark:text-neutral-300/90 dark:hover:text-white",
                   ].join(" ")}
                 >
                   {item.label}
@@ -123,7 +125,7 @@ export default function Header() {
                 initial="rest"
                 whileHover="hover"
                 whileTap="tap"
-                className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white px-4 py-2 text-sm font-semibold text-neutral-900 shadow-sm"
+                className="inline-flex items-center gap-2 rounded-xl border border-gray-200 bg-gray-900 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black dark:border-white/10 dark:bg-white dark:text-neutral-900 dark:hover:bg-gray-100"
               >
                 Let’s talk
                 <ArrowRight className="size-4" />
@@ -133,7 +135,7 @@ export default function Header() {
             <button
               aria-label="Menu"
               onClick={() => setOpen(true)}
-              className="inline-flex items-center justify-center rounded-lg border border-white/10 bg-white/5 p-2 text-white md:hidden"
+              className="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white p-2 text-gray-900 shadow-sm md:hidden hover:bg-gray-50 dark:border-white/10 dark:bg-white/5 dark:text-white"
             >
               <Menu className="size-5" />
             </button>
@@ -156,25 +158,26 @@ export default function Header() {
         <motion.div
           variants={{ hidden: { x: "100%" }, show: { x: 0 } }}
           transition={{ duration: 0.28, ease: [0.2, 0.8, 0.2, 1] }}
-          className="absolute right-0 top-0 h-full w-[84%] max-w-sm border-l border-white/10 bg-neutral-950 p-6 shadow-2xl"
+          className="absolute right-0 top-0 h-full w-[84%] max-w-sm border-l border-gray-200 bg-white p-6 text-gray-900 shadow-2xl dark:border-white/10 dark:bg-neutral-950 dark:text-gray-100"
         >
           <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-  <Image
-    src="/brand/tylvra-mark-soft.svg"
-    alt="Tylvra"
-    width={36}
-    height={36}
-  />
-  <span className="text-[15px] font-medium tracking-tight text-white">Tylvra</span>
-
+            <div className="flex items-center gap-3">
+              <Image
+                src="/brand/tylvra-mark-soft.svg"
+                alt="Tylvra"
+                width={36}
+                height={36}
+              />
+              <span className="text-[15px] font-medium tracking-tight text-gray-900 dark:text-white">
+                Tylvra
+              </span>
             </div>
             <motion.button
               variants={tapPress}
               whileTap="tap"
               aria-label="Close"
               onClick={() => setOpen(false)}
-              className="inline-flex items-center justify-center rounded-lg border border-white/10 bg-white/5 p-2 text-white"
+              className="inline-flex items-center justify-center rounded-lg border border-gray-300 bg-white p-2 text-gray-900 hover:bg-gray-50 dark:border-white/10 dark:bg-white/5 dark:text-white"
             >
               <X className="size-5" />
             </motion.button>
@@ -188,7 +191,7 @@ export default function Header() {
                     <span
                       aria-disabled="true"
                       title="Coming soon"
-                      className="block cursor-not-allowed rounded-lg px-3 py-2 text-base text-neutral-500/60"
+                      className="block cursor-not-allowed rounded-lg px-3 py-2 text-base text-gray-500 dark:text-neutral-500"
                     >
                       {item.label}
                     </span>
@@ -199,11 +202,11 @@ export default function Header() {
                       href={item.href}
                       onClick={() => setOpen(false)}
                       className={[
-                        "block rounded-lg px-3 py-2 text-base transition",
-                        "border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30",
+                        "block rounded-xl px-4 py-3 text-base transition",
+                        "border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-400/50 dark:focus-visible:ring-white/30",
                         isActive(item.href)
-                          ? "border-white/20 bg-white/10 text-white"
-                          : "border-white/10 bg-transparent text-neutral-300/90 hover:bg-white/5 hover:text-white",
+                          ? "border-gray-300 bg-gray-100 text-gray-900 dark:border-white/20 dark:bg-white/10 dark:text-white"
+                          : "border-gray-200 bg-white text-gray-900 hover:bg-gray-50 dark:border-white/10 dark:bg-transparent dark:text-neutral-300/90 dark:hover:bg-white/5 dark:hover:text-white",
                       ].join(" ")}
                     >
                       {item.label}
@@ -219,7 +222,7 @@ export default function Header() {
                 initial="rest"
                 whileHover="hover"
                 whileTap="tap"
-                className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 bg-white px-4 py-2 text-sm font-semibold text-neutral-900 shadow-sm"
+                className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-gray-300 bg-gray-900 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-black dark:border-white/10 dark:bg-white dark:text-neutral-900 dark:hover:bg-gray-100"
               >
                 Let’s talk
                 <ArrowRight className="size-4" />
