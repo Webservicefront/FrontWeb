@@ -10,6 +10,7 @@ import MaxWidthWrapper from "@/components/primitives/MaxWidthWrapper";
 import Icon from "@/components/primitives/Icon";
 import { useViewportParallax } from "@/components/animations/parallax";
 import { fadeUp, hoverLift, tapPress, staggerContainer } from "@/components/animations/variants";
+import useIsMobile from "@/hooks/useIsMobile";
 
 type Chip = { icon: ComponentType<{ className?: string }>; label: string };
 
@@ -37,20 +38,14 @@ export default function Hero({
   ],
 }: Props) {
   const [mounted, setMounted] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => {
-    setMounted(true);
-    const onResize = () => setIsMobile(window.innerWidth < 768);
-    onResize();
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
+  const isMobile = useIsMobile();
+  useEffect(() => setMounted(true), []);
 
   const bg = useViewportParallax({ translate: { y: [24, -16] }, opacity: [0.25, 0.6], scale: [1, 1.04] });
 
   return (
     <section className="relative overflow-hidden">
-      <Container reveal bgGlow py="lg" center>
+      <Container reveal={!isMobile} bgGlow py="lg" center>
         {mounted && !isMobile && (
           <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
             <motion.div
@@ -60,7 +55,7 @@ export default function Hero({
           </div>
         )}
 
-        <MaxWidthWrapper reveal size="lg" px="md" align="center">
+        <MaxWidthWrapper reveal={!isMobile} size="lg" px="md" align="center">
           <motion.div
             variants={fadeUp(14)}
             initial={mounted && !isMobile ? "hidden" : false}
@@ -80,8 +75,8 @@ export default function Hero({
               <a href={primaryHref} target="_blank" rel="noreferrer">
                 <motion.span
                   variants={hoverLift}
-                  initial="rest"
-                  whileHover="hover"
+                  initial={isMobile ? false : "rest"}
+                  whileHover={isMobile ? undefined : "hover"}
                   whileTap="tap"
                   className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white px-5 py-2.5 text-sm font-semibold text-neutral-900 shadow-sm"
                 >
@@ -102,22 +97,35 @@ export default function Hero({
               </Link>
             </div>
 
-            <motion.ul
-              variants={staggerContainer(0.04, 0.08)}
-              initial={mounted && !isMobile ? "hidden" : false}
-              whileInView={mounted && !isMobile ? "show" : undefined}
-              viewport={{ once: true, margin: "-40px" }}
-              className="mx-auto mt-8 flex flex-wrap items-center justify-center gap-2"
-            >
-              {chips.map((c, i) => (
-                <motion.li key={i} variants={fadeUp(10)}>
-                  <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-neutral-200">
-                    <Icon icon={c.icon} size="xs" variant="ghost" tone="primary" rounded="full" />
-                    {c.label}
-                  </span>
-                </motion.li>
-              ))}
-            </motion.ul>
+            {isMobile ? (
+              <ul className="mx-auto mt-8 flex flex-wrap items-center justify-center gap-2">
+                {chips.map((c, i) => (
+                  <li key={i}>
+                    <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-neutral-200">
+                      <Icon icon={c.icon} size="xs" variant="ghost" tone="primary" rounded="full" />
+                      {c.label}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <motion.ul
+                variants={staggerContainer(0.04, 0.08)}
+                initial={mounted ? "hidden" : false}
+                whileInView="show"
+                viewport={{ once: true, margin: "-40px" }}
+                className="mx-auto mt-8 flex flex-wrap items-center justify-center gap-2"
+              >
+                {chips.map((c, i) => (
+                  <motion.li key={i} variants={fadeUp(10)}>
+                    <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-neutral-200">
+                      <Icon icon={c.icon} size="xs" variant="ghost" tone="primary" rounded="full" />
+                      {c.label}
+                    </span>
+                  </motion.li>
+                ))}
+              </motion.ul>
+            )}
           </motion.div>
         </MaxWidthWrapper>
       </Container>

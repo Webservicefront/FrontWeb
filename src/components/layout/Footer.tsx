@@ -2,7 +2,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Mail, MapPin, Phone, Twitter, Github, Linkedin, ArrowRight } from "lucide-react";
+import { Mail, MapPin, Phone, Github, ArrowRight } from "lucide-react";
 import { useViewportParallax } from "@/components/animations/parallax";
 import { fadeUp, staggerContainer, hoverLift } from "@/components/animations/variants";
 import Image from "next/image";
@@ -23,8 +23,6 @@ const navSecondary: LinkItem[] = [
   { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/contact" },
 ];
-
-
 
 const socials: SocialItem[] = [
   { label: "GitHub", href: "https://github.com/Jorgearellano1", Icon: Github },
@@ -54,22 +52,20 @@ export default function Footer() {
       <div className="mx-auto w-full max-w-7xl px-6 py-16">
         <motion.div
           variants={staggerContainer(0.08, 0)}
-          initial="hidden"
+          initial={false}
           whileInView="show"
           viewport={{ once: true, margin: "-80px" }}
           className="grid grid-cols-1 gap-12 md:grid-cols-4"
         >
           <motion.div variants={fadeUp()} className="col-span-1">
-
             <div className="flex items-center gap-3">
-  <Image
-    src="/brand/tylvra-mark-soft.svg"
-    alt="Tylvra"
-    width={160}
-    height={36}
-    priority
-  />
-            
+              <Image
+                src="/brand/tylvra-mark-soft.svg"
+                alt="Tylvra"
+                width={160}
+                height={36}
+                priority
+              />
             </div>
             <p className="mt-4 max-w-xs text-sm text-neutral-300/80">
               Modern software experiences—AI, web, and scalable systems—crafted for clarity, speed, and impact.
@@ -142,33 +138,28 @@ export default function Footer() {
               Start a project and build a high-performance product with AI and modern web tech.
             </p>
             <motion.a
-  href="/#contact"
-  variants={hoverLift}
-  initial="rest"
-  whileHover="hover"
-  whileTap="tap"
-  className="mt-5 inline-flex items-center gap-2 rounded-xl border border-white/15 bg-white/8 px-4 py-2 text-sm font-semibold text-white hover:bg-white/12"
->
-  Let’s talk
-  <ArrowRight className="size-4" />
-</motion.a>
-
-     
+              href="/#contact"
+              variants={hoverLift}
+              initial="rest"
+              whileHover="hover"
+              whileTap="tap"
+              className="mt-5 inline-flex items-center gap-2 rounded-xl border border-white/15 bg-white/8 px-4 py-2 text-sm font-semibold text-white hover:bg-white/12"
+            >
+              Let’s talk
+              <ArrowRight className="size-4" />
+            </motion.a>
           </motion.div>
         </motion.div>
 
         <motion.div
           variants={fadeUp()}
-          initial="hidden"
+          initial={false}
           whileInView="show"
           viewport={{ once: true, margin: "-80px" }}
           className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/10 pt-6 md:flex-row"
         >
           <p className="text-xs text-neutral-400">© {year} Tylvra. All rights reserved.</p>
-          <ul className="flex flex-wrap items-center gap-4 text-xs text-neutral-400">
-           
-             
-          </ul>
+          <ul className="flex flex-wrap items-center gap-4 text-xs text-neutral-400" />
         </motion.div>
       </div>
     </footer>

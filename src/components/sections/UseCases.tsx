@@ -9,6 +9,7 @@ import Container from "@/components/primitives/Container";
 import MaxWidthWrapper from "@/components/primitives/MaxWidthWrapper";
 import Icon from "@/components/primitives/Icon";
 import { fadeUp, staggerContainer, hoverLift, tapPress } from "@/components/animations/variants";
+import useIsMobile from "@/hooks/useIsMobile";
 
 type CaseItem = {
   icon: ComponentType<{ className?: string }>;
@@ -87,19 +88,13 @@ export default function UseCases({
   ctaLabel = "Explore all use cases",
 }: Props) {
   const [mounted, setMounted] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => {
-    setMounted(true);
-    const onResize = () => setIsMobile(window.innerWidth < 768);
-    onResize();
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
+  const isMobile = useIsMobile();
+  useEffect(() => setMounted(true), []);
 
   return (
     <section className="relative">
-      <Container reveal bgGlow py="lg">
-        <MaxWidthWrapper reveal size="lg" px="md" align="center">
+      <Container reveal={!isMobile} bgGlow py="lg">
+        <MaxWidthWrapper reveal={!isMobile} size="lg" px="md" align="center">
           <motion.div
             variants={fadeUp(12)}
             initial={mounted && !isMobile ? "hidden" : false}
@@ -115,60 +110,102 @@ export default function UseCases({
             </p>
           </motion.div>
 
-          <motion.ul
-            variants={staggerContainer(0.04, 0.08)}
-            initial={mounted && !isMobile ? "hidden" : false}
-            whileInView={mounted && !isMobile ? "show" : undefined}
-            viewport={{ once: true, margin: "-40px" }}
-            className="mx-auto mt-10 grid w-full gap-4 sm:grid-cols-2 lg:grid-cols-3"
-          >
-            {items.map((item) => (
-              <motion.li key={item.title} variants={fadeUp(10)} className="group relative">
-                <motion.div
-                  variants={hoverLift}
-                  initial="rest"
-                  whileHover="hover"
-                  className="flex h-full flex-col rounded-2xl border border-white/10 bg-neutral-950/60 p-5 backdrop-blur"
-                >
-                  <div className="flex items-start gap-3">
-                    <Icon icon={item.icon} variant="soft" tone="primary" size="sm" rounded="lg" />
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2">
-                        <h3 className="text-[15px] font-semibold text-white">{item.title}</h3>
-                        {item.tag ? (
-                          <span className="rounded-md border border-white/10 bg-white/5 px-2 py-0.5 text-[10px] uppercase tracking-wide text-neutral-300">
-                            {item.tag}
-                          </span>
-                        ) : null}
+          {isMobile ? (
+            <ul className="mx-auto mt-10 grid w-full gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {items.map((item) => (
+                <li key={item.title} className="group relative">
+                  <div className="flex h-full flex-col rounded-2xl border border-white/10 bg-neutral-950/60 p-5 backdrop-blur">
+                    <div className="flex items-start gap-3">
+                      <Icon icon={item.icon} variant="soft" tone="primary" size="sm" rounded="lg" />
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2">
+                          <h3 className="text-[15px] font-semibold text-white">{item.title}</h3>
+                          {item.tag ? (
+                            <span className="rounded-md border border-white/10 bg-white/5 px-2 py-0.5 text-[10px] uppercase tracking-wide text-neutral-300">
+                              {item.tag}
+                            </span>
+                          ) : null}
+                        </div>
+                        <p className="mt-2 text-sm text-neutral-300/90">{item.desc}</p>
                       </div>
-                      <p className="mt-2 text-sm text-neutral-300/90">{item.desc}</p>
+                    </div>
+
+                    <div className="mt-4 flex items-center justify-between">
+                      <div className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-2 py-1">
+                        <span className="text-[11px] text-neutral-300">{item.metric.label}</span>
+                        <span className="text-[12px] font-semibold text-white">{item.metric.value}</span>
+                      </div>
+                      <Link href={item.href}>
+                        <span className="inline-flex items-center gap-1 rounded-lg border border-white/10 bg-white/5 px-2 py-1 text-xs font-semibold text-white hover:bg-white/10">
+                          Learn more
+                          <ChevronRight className="size-3.5" />
+                        </span>
+                      </Link>
+                    </div>
+
+                    <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                      <div className="absolute -top-24 left-1/2 h-[360px] w-[360px] -translate-x-1/2 rounded-full bg-gradient-to-tr from-indigo-500/10 via-sky-400/10 to-cyan-400/10 blur-3xl" />
                     </div>
                   </div>
-
-                  <div className="mt-4 flex items-center justify-between">
-                    <div className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-2 py-1">
-                      <span className="text-[11px] text-neutral-300">{item.metric.label}</span>
-                      <span className="text-[12px] font-semibold text-white">{item.metric.value}</span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <motion.ul
+              variants={staggerContainer(0.04, 0.08)}
+              initial={mounted ? "hidden" : false}
+              whileInView="show"
+              viewport={{ once: true, margin: "-40px" }}
+              className="mx-auto mt-10 grid w-full gap-4 sm:grid-cols-2 lg:grid-cols-3"
+            >
+              {items.map((item) => (
+                <motion.li key={item.title} variants={fadeUp(10)} className="group relative">
+                  <motion.div
+                    variants={hoverLift}
+                    initial="rest"
+                    whileHover="hover"
+                    className="flex h-full flex-col rounded-2xl border border-white/10 bg-neutral-950/60 p-5 backdrop-blur"
+                  >
+                    <div className="flex items-start gap-3">
+                      <Icon icon={item.icon} variant="soft" tone="primary" size="sm" rounded="lg" />
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2">
+                          <h3 className="text-[15px] font-semibold text-white">{item.title}</h3>
+                          {item.tag ? (
+                            <span className="rounded-md border border-white/10 bg-white/5 px-2 py-0.5 text-[10px] uppercase tracking-wide text-neutral-300">
+                              {item.tag}
+                            </span>
+                          ) : null}
+                        </div>
+                        <p className="mt-2 text-sm text-neutral-300/90">{item.desc}</p>
+                      </div>
                     </div>
-                    <Link href={item.href}>
-                      <motion.span
-                        variants={tapPress}
-                        whileTap="tap"
-                        className="inline-flex items-center gap-1 rounded-lg border border-white/10 bg-white/5 px-2 py-1 text-xs font-semibold text-white hover:bg-white/10"
-                      >
-                        Learn more
-                        <ChevronRight className="size-3.5" />
-                      </motion.span>
-                    </Link>
-                  </div>
 
-                  <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                    <div className="absolute -top-24 left-1/2 h-[360px] w-[360px] -translate-x-1/2 rounded-full bg-gradient-to-tr from-indigo-500/10 via-sky-400/10 to-cyan-400/10 blur-3xl" />
-                  </div>
-                </motion.div>
-              </motion.li>
-            ))}
-          </motion.ul>
+                    <div className="mt-4 flex items-center justify-between">
+                      <div className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-2 py-1">
+                        <span className="text-[11px] text-neutral-300">{item.metric.label}</span>
+                        <span className="text-[12px] font-semibold text-white">{item.metric.value}</span>
+                      </div>
+                      <Link href={item.href}>
+                        <motion.span
+                          variants={tapPress}
+                          whileTap="tap"
+                          className="inline-flex items-center gap-1 rounded-lg border border-white/10 bg-white/5 px-2 py-1 text-xs font-semibold text-white hover:bg-white/10"
+                        >
+                          Learn more
+                          <ChevronRight className="size-3.5" />
+                        </motion.span>
+                      </Link>
+                    </div>
+
+                    <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                      <div className="absolute -top-24 left-1/2 h-[360px] w-[360px] -translate-x-1/2 rounded-full bg-gradient-to-tr from-indigo-500/10 via-sky-400/10 to-cyan-400/10 blur-3xl" />
+                    </div>
+                  </motion.div>
+                </motion.li>
+              ))}
+            </motion.ul>
+          )}
 
           <motion.div
             variants={fadeUp(12)}

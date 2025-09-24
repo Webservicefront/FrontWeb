@@ -8,10 +8,15 @@ export const easing = {
   accel: [0.4, 0, 1, 1] as const,
 };
 
-const isReduced =
+const prefersReduced =
   typeof window !== "undefined" &&
-  window.matchMedia &&
-  window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+
+const isMobile =
+  typeof window !== "undefined" &&
+  window.matchMedia?.("(max-width: 767px)").matches;
+
+const motionDisabled = Boolean(prefersReduced || isMobile);
 
 export const durations = {
   xs: 0.14,
@@ -29,26 +34,35 @@ export const durationsMobile = {
   xl: 0.44,
 };
 
-const tr = (duration = durations.md, ease: Transition["ease"] = easing.standard): Transition => ({
-  duration: isReduced ? 0.01 : duration,
-  ease: isReduced ? "linear" : ease,
+const tr = (
+  duration = durations.md,
+  ease: Transition["ease"] = easing.standard
+): Transition => ({
+  duration: motionDisabled ? 0.01 : duration,
+  ease: motionDisabled ? "linear" : ease,
 });
 
-const dist = (v: number) => (isReduced ? 0 : v);
+const dist = (v: number) => (motionDisabled ? 0 : v);
 
-export const staggerContainer = (staggerChildren = 0.04, delayChildren = 0): Variants => ({
+export const staggerContainer = (
+  staggerChildren = 0.04,
+  delayChildren = 0
+): Variants => ({
   hidden: { opacity: 1 },
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: isReduced ? 0 : staggerChildren,
-      delayChildren: isReduced ? 0 : delayChildren,
+      staggerChildren: motionDisabled ? 0 : staggerChildren,
+      delayChildren: motionDisabled ? 0 : delayChildren,
     },
   },
 });
 
-export const fade = (duration = durations.md, ease: Transition["ease"] = easing.standard): Variants => ({
-  hidden: { opacity: 0 },
+export const fade = (
+  duration = durations.md,
+  ease: Transition["ease"] = easing.standard
+): Variants => ({
+  hidden: { opacity: motionDisabled ? 1 : 0 },
   show: { opacity: 1, transition: tr(duration, ease) },
 });
 
@@ -57,7 +71,7 @@ export const fadeUp = (
   duration = durations.md,
   ease: Transition["ease"] = easing.emphasize
 ): Variants => ({
-  hidden: { opacity: 0, y: dist(distance) },
+  hidden: { opacity: motionDisabled ? 1 : 0, y: dist(distance) },
   show: { opacity: 1, y: 0, transition: tr(duration, ease) },
 });
 
@@ -72,7 +86,7 @@ export const fadeDown = (
   duration = durations.md,
   ease: Transition["ease"] = easing.emphasize
 ): Variants => ({
-  hidden: { opacity: 0, y: dist(-distance) },
+  hidden: { opacity: motionDisabled ? 1 : 0, y: dist(-distance) },
   show: { opacity: 1, y: 0, transition: tr(duration, ease) },
 });
 
@@ -87,7 +101,7 @@ export const fadeLeft = (
   duration = durations.md,
   ease: Transition["ease"] = easing.emphasize
 ): Variants => ({
-  hidden: { opacity: 0, x: dist(distance) },
+  hidden: { opacity: motionDisabled ? 1 : 0, x: dist(distance) },
   show: { opacity: 1, x: 0, transition: tr(duration, ease) },
 });
 
@@ -96,7 +110,7 @@ export const fadeRight = (
   duration = durations.md,
   ease: Transition["ease"] = easing.emphasize
 ): Variants => ({
-  hidden: { opacity: 0, x: dist(-distance) },
+  hidden: { opacity: motionDisabled ? 1 : 0, x: dist(-distance) },
   show: { opacity: 1, x: 0, transition: tr(duration, ease) },
 });
 
@@ -141,7 +155,7 @@ export const scaleIn = (
   duration = durations.md,
   ease: Transition["ease"] = easing.standard
 ): Variants => ({
-  hidden: { opacity: 0, scale: isReduced ? 1 : from },
+  hidden: { opacity: motionDisabled ? 1 : 0, scale: motionDisabled ? 1 : from },
   show: { opacity: 1, scale: 1, transition: tr(duration, ease) },
 });
 
@@ -150,7 +164,7 @@ export const rotateIn = (
   duration = durations.md,
   ease: Transition["ease"] = easing.standard
 ): Variants => ({
-  hidden: { opacity: 0, rotate: isReduced ? 0 : deg },
+  hidden: { opacity: motionDisabled ? 1 : 0, rotate: motionDisabled ? 0 : deg },
   show: { opacity: 1, rotate: 0, transition: tr(duration, ease) },
 });
 
@@ -159,7 +173,7 @@ export const blurIn = (
   duration = durations.md,
   ease: Transition["ease"] = easing.standard
 ): Variants => ({
-  hidden: { opacity: 0, filter: isReduced ? "blur(0px)" : `blur(${px}px)` },
+  hidden: { opacity: motionDisabled ? 1 : 0, filter: motionDisabled ? "blur(0px)" : `blur(${px}px)` },
   show: { opacity: 1, filter: "blur(0px)", transition: tr(duration, ease) },
 });
 
@@ -167,7 +181,7 @@ export const maskReveal = (
   duration = durations.lg,
   ease: Transition["ease"] = easing.emphasize
 ): Variants => ({
-  hidden: { opacity: 0, clipPath: isReduced ? "inset(0 0 0% 0)" : "inset(0 0 100% 0)" },
+  hidden: { opacity: motionDisabled ? 1 : 0, clipPath: motionDisabled ? "inset(0 0 0% 0)" : "inset(0 0 100% 0)" },
   show: { opacity: 1, clipPath: "inset(0 0 0% 0)", transition: tr(duration, ease) },
 });
 
@@ -176,7 +190,7 @@ export const textReveal = (
   duration = durations.sm,
   ease: Transition["ease"] = easing.emphasize
 ): Variants => ({
-  hidden: { y: dist(distance), opacity: 0 },
+  hidden: { y: dist(distance), opacity: motionDisabled ? 1 : 0 },
   show: { y: 0, opacity: 1, transition: tr(duration, ease) },
 });
 
@@ -188,18 +202,23 @@ export const staggeredText = (
   item: textReveal(10, durations.xs, easing.emphasize),
 });
 
-export const marqueeX = (distance = 50, duration = 12): Variants => ({
-  animate: {
-    x: ["0%", `-${distance}%`],
-    transition: { duration, ease: "linear", repeat: Infinity },
-  },
-});
+export const marqueeX = (distance = 50, duration = 12): Variants => {
+  if (motionDisabled) {
+    return { animate: { x: "0%" } };
+  }
+  return {
+    animate: {
+      x: ["0%", `-${distance}%`],
+      transition: { duration, ease: "linear", repeat: Infinity },
+    },
+  };
+};
 
 export const hoverLift: Variants = {
   rest: { y: 0, scale: 1, boxShadow: "0 0 0 0 rgba(0,0,0,0)" },
   hover: {
     y: dist(4),
-    scale: isReduced ? 1 : 1.02,
+    scale: motionDisabled ? 1 : 1.02,
     boxShadow: "0 12px 30px rgba(0,0,0,0.12)",
     transition: tr(durations.sm, easing.decel),
   },
@@ -207,11 +226,11 @@ export const hoverLift: Variants = {
 
 export const tapPress: Variants = {
   hover: {},
-  tap: { scale: isReduced ? 1 : 0.98, transition: tr(durations.xs, easing.accel) },
+  tap: { scale: motionDisabled ? 1 : 0.98, transition: tr(durations.xs, easing.accel) },
 };
 
 export const overlay: Variants = {
-  hidden: { opacity: 0 },
+  hidden: { opacity: motionDisabled ? 1 : 0 },
   show: { opacity: 1, transition: tr(durations.sm, easing.standard) },
   exit: { opacity: 0, transition: tr(durations.sm, easing.accel) },
 };

@@ -68,7 +68,7 @@ export default function Header() {
       >
         <motion.div
           variants={fadeDown(12, 0.28)}
-          initial="hidden"
+          initial={false}        // evita hydration mismatch
           animate="show"
           className={[
             "relative flex items-center justify-between gap-4 px-4 py-2",
@@ -151,12 +151,14 @@ export default function Header() {
       >
         <motion.div
           variants={{ hidden: { opacity: 0 }, show: { opacity: 1 } }}
+          initial={false}
           transition={{ duration: 0.2 }}
           onClick={() => setOpen(false)}
           className="absolute inset-0 bg-black/60 backdrop-blur-sm"
         />
         <motion.div
           variants={{ hidden: { x: "100%" }, show: { x: 0 } }}
+          initial={false}
           transition={{ duration: 0.28, ease: [0.2, 0.8, 0.2, 1] }}
           className="absolute right-0 top-0 h-full w-[84%] max-w-sm border-l border-gray-200 bg-white p-6 text-gray-900 shadow-2xl dark:border-white/10 dark:bg-neutral-950 dark:text-gray-100"
         >

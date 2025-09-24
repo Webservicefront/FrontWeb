@@ -8,6 +8,7 @@ import Container from "../primitives/Container";
 import MaxWidthWrapper from "../primitives/MaxWidthWrapper";
 import Icon from "../primitives/Icon";
 import { fadeUp, staggerContainer, hoverLift } from "../animations/variants";
+import useIsMobile from "@/hooks/useIsMobile";
 
 type Feature = {
   icon: ComponentType<{ className?: string }>;
@@ -40,19 +41,13 @@ export default function FeatureGrid({
   features = defaults,
 }: Props) {
   const [mounted, setMounted] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => {
-    setMounted(true);
-    const onResize = () => setIsMobile(window.innerWidth < 768);
-    onResize();
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
+  const isMobile = useIsMobile();
+  useEffect(() => setMounted(true), []);
 
   return (
     <section className="relative">
-      <Container reveal bgGlow py="lg">
-        <MaxWidthWrapper reveal size="lg" px="md" align="center">
+      <Container reveal={!isMobile} bgGlow py="lg">
+        <MaxWidthWrapper reveal={!isMobile} size="lg" px="md" align="center">
           <motion.div
             variants={fadeUp(12)}
             initial={mounted && !isMobile ? "hidden" : false}
@@ -68,34 +63,48 @@ export default function FeatureGrid({
             </p>
           </motion.div>
 
-          <motion.ul
-            variants={staggerContainer(0.04, 0.08)}
-            initial={mounted && !isMobile ? "hidden" : false}
-            whileInView={mounted && !isMobile ? "show" : undefined}
-            viewport={{ once: true, margin: "-40px" }}
-            className="mx-auto mt-10 grid w-full gap-4 sm:grid-cols-2 lg:grid-cols-3"
-          >
-            {features.map((f, i) => (
-              <motion.li
-                key={i}
-                variants={fadeUp(10)}
-                whileHover="hover"
-                className="group relative rounded-2xl border border-white/10 bg-neutral-950/60 p-5 backdrop-blur"
-              >
-                <motion.div
-                  variants={hoverLift}
-                  className="inline-flex size-10 items-center justify-center rounded-xl border border-white/10 bg-white/5"
+          {isMobile ? (
+            <ul className="mx-auto mt-10 grid w-full gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {features.map((f, i) => (
+                <li key={i} className="group relative rounded-2xl border border-white/10 bg-neutral-950/60 p-5 backdrop-blur">
+                  <div className="inline-flex size-10 items-center justify-center rounded-xl border border-white/10 bg-white/5">
+                    <Icon icon={f.icon} variant="ghost" tone="primary" size="sm" rounded="md" />
+                  </div>
+                  <h3 className="mt-4 text-[15px] font-semibold text-white">{f.title}</h3>
+                  <p className="mt-2 text-sm text-neutral-300/90">{f.desc}</p>
+                  <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                    <div className="absolute -top-24 left-1/2 h-[360px] w-[360px] -translate-x-1/2 rounded-full bg-gradient-to-tr from-indigo-500/10 via-sky-400/10 to-cyan-400/10 blur-3xl" />
+                  </div>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <motion.ul
+              variants={staggerContainer(0.04, 0.08)}
+              initial={mounted ? "hidden" : false}
+              whileInView="show"
+              viewport={{ once: true, margin: "-40px" }}
+              className="mx-auto mt-10 grid w-full gap-4 sm:grid-cols-2 lg:grid-cols-3"
+            >
+              {features.map((f, i) => (
+                <motion.li
+                  key={i}
+                  variants={fadeUp(10)}
+                  whileHover="hover"
+                  className="group relative rounded-2xl border border-white/10 bg-neutral-950/60 p-5 backdrop-blur"
                 >
-                  <Icon icon={f.icon} variant="ghost" tone="primary" size="sm" rounded="md" />
-                </motion.div>
-                <h3 className="mt-4 text-[15px] font-semibold text-white">{f.title}</h3>
-                <p className="mt-2 text-sm text-neutral-300/90">{f.desc}</p>
-                <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                  <div className="absolute -top-24 left-1/2 h-[360px] w-[360px] -translate-x-1/2 rounded-full bg-gradient-to-tr from-indigo-500/10 via-sky-400/10 to-cyan-400/10 blur-3xl" />
-                </div>
-              </motion.li>
-            ))}
-          </motion.ul>
+                  <motion.div variants={hoverLift} className="inline-flex size-10 items-center justify-center rounded-xl border border-white/10 bg-white/5">
+                    <Icon icon={f.icon} variant="ghost" tone="primary" size="sm" rounded="md" />
+                  </motion.div>
+                  <h3 className="mt-4 text-[15px] font-semibold text-white">{f.title}</h3>
+                  <p className="mt-2 text-sm text-neutral-300/90">{f.desc}</p>
+                  <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                    <div className="absolute -top-24 left-1/2 h-[360px] w-[360px] -translate-x-1/2 rounded-full bg-gradient-to-tr from-indigo-500/10 via-sky-400/10 to-cyan-400/10 blur-3xl" />
+                  </div>
+                </motion.li>
+              ))}
+            </motion.ul>
+          )}
         </MaxWidthWrapper>
       </Container>
     </section>

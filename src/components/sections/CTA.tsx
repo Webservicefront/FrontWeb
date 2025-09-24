@@ -8,6 +8,7 @@ import { ArrowRight } from "lucide-react";
 import Container from "@/components/primitives/Container";
 import MaxWidthWrapper from "@/components/primitives/MaxWidthWrapper";
 import { fadeUp, hoverLift, tapPress } from "@/components/animations/variants";
+import useIsMobile from "@/hooks/useIsMobile";
 
 type Props = {
   title?: string;
@@ -29,19 +30,13 @@ export default function CTA({
   note = "Now accepting new AI automation and Web projects",
 }: Props) {
   const [mounted, setMounted] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => {
-    setMounted(true);
-    const onResize = () => setIsMobile(window.innerWidth < 768);
-    onResize();
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
+  const isMobile = useIsMobile();
+  useEffect(() => setMounted(true), []);
 
   return (
     <section className="relative">
-      <Container reveal bgGlow py="lg" center>
-        <MaxWidthWrapper reveal size="lg" px="md" align="center">
+      <Container reveal={!isMobile} bgGlow py="lg" center>
+        <MaxWidthWrapper reveal={!isMobile} size="lg" px="md" align="center">
           <motion.div
             variants={fadeUp(14)}
             initial={mounted && !isMobile ? "hidden" : false}
@@ -66,8 +61,8 @@ export default function CTA({
                 <a href={primaryHref} target="_blank" rel="noreferrer">
                   <motion.span
                     variants={hoverLift}
-                    initial="rest"
-                    whileHover="hover"
+                    initial={isMobile ? false : "rest"}
+                    whileHover={isMobile ? undefined : "hover"}
                     whileTap="tap"
                     className="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white px-5 py-2.5 text-sm font-semibold text-neutral-900 shadow-sm"
                   >

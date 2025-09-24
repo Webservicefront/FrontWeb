@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import Container from "@/components/primitives/Container";
 import MaxWidthWrapper from "@/components/primitives/MaxWidthWrapper";
 import { fadeUp, staggerContainer } from "@/components/animations/variants";
+import useIsMobile from "@/hooks/useIsMobile";
 
 type Logo = { src: string; alt: string };
 
@@ -43,17 +44,25 @@ export default function LogosMarquee({
   grayscale = true,
   gap = "gap-6 sm:gap-8",
 }: Props) {
+  const isMobile = useIsMobile();
+
   const [reduceMotion, setReduceMotion] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
   useEffect(() => {
+    setMounted(true);
     const q = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setReduceMotion(q.matches);
-    const onChange = () => setReduceMotion(q.matches);
-    q.addEventListener?.("change", onChange);
-    return () => q.removeEventListener?.("change", onChange);
+    const apply = () => setReduceMotion(q.matches);
+    apply();
+    q.addEventListener?.("change", apply);
+    return () => q.removeEventListener?.("change", apply);
   }, []);
+
+  const shouldAnimate = mounted ? !reduceMotion : true;
 
   const row = dup(logos);
   const rowAlt = dup([...logos].reverse());
+
   const imgClass = [
     "object-contain p-2 opacity-80 transition",
     grayscale ? "grayscale hover:grayscale-0 hover:opacity-100" : "hover:opacity-100",
@@ -63,28 +72,39 @@ export default function LogosMarquee({
 
   return (
     <section className="relative">
-      <Container reveal bgGlow py="lg">
-        <MaxWidthWrapper reveal size="lg" px="md" align="center">
-          <motion.div variants={fadeUp(12)} className="mx-auto max-w-3xl">
+      <Container reveal={!isMobile} bgGlow py="lg">
+        <MaxWidthWrapper reveal={!isMobile} size="lg" px="md" align="center">
+          <motion.div
+            variants={!isMobile ? fadeUp(12) : undefined}
+            initial={false}
+            whileInView={!isMobile ? "show" : undefined}
+            viewport={!isMobile ? { once: true, margin: "-60px" } : undefined}
+            className="mx-auto max-w-3xl"
+          >
             <h2 className="text-balance text-3xl font-semibold leading-tight tracking-tight text-white md:text-4xl">
               {title}
             </h2>
           </motion.div>
 
           <motion.div
-            variants={staggerContainer(0.06, 0.08)}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-60px" }}
+            variants={!isMobile ? staggerContainer(0.06, 0.08) : undefined}
+            initial={false}
+            whileInView={!isMobile ? "show" : undefined}
+            viewport={!isMobile ? { once: true, margin: "-60px" } : undefined}
             className="relative mt-8 overflow-hidden"
           >
             <div aria-hidden className="pointer-events-none absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-neutral-950 to-transparent" />
             <div aria-hidden className="pointer-events-none absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-neutral-950 to-transparent" />
 
-            <motion.div variants={fadeUp(10)} className="relative">
+            <motion.div
+              variants={!isMobile ? fadeUp(10) : undefined}
+              initial={false}
+              whileInView={!isMobile ? "show" : undefined}
+              className="relative"
+            >
               <div
-                className={`flex ${gap} w-max items-center ${reduceMotion ? "" : "[animation:marquee_linear_infinite]"}`}
-                style={{ animationDuration: `${durationMs}ms` }}
+                className={`flex ${gap} w-max items-center ${shouldAnimate ? "[animation:marquee_linear_infinite]" : ""}`}
+                style={shouldAnimate ? { animationDuration: `${durationMs}ms` } : undefined}
               >
                 {row.map((l, i) => (
                   <div key={`r1-${i}-${l.src}`} className={cardClass}>
@@ -103,10 +123,15 @@ export default function LogosMarquee({
               </div>
             </motion.div>
 
-            <motion.div variants={fadeUp(10)} className="relative mt-4">
+            <motion.div
+              variants={!isMobile ? fadeUp(10) : undefined}
+              initial={false}
+              whileInView={!isMobile ? "show" : undefined}
+              className="relative mt-4"
+            >
               <div
-                className={`flex ${gap} w-max items-center ${reduceMotion ? "" : "[animation:marqueeAlt_linear_infinite]"}`}
-                style={{ animationDuration: `${durationMs}ms` }}
+                className={`flex ${gap} w-max items-center ${shouldAnimate ? "[animation:marqueeAlt_linear_infinite]" : ""}`}
+                style={shouldAnimate ? { animationDuration: `${durationMs}ms` } : undefined}
               >
                 {rowAlt.map((l, i) => (
                   <div key={`r2-${i}-${l.src}`} className={cardClass}>
