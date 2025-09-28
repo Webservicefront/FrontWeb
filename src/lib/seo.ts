@@ -133,8 +133,15 @@ export function buildMetadata(input: SEOInput = {}): Metadata {
       images: images.map((i) => i.url),
     },
     robots: resolveRobots(input.noIndex, input.robots),
-    icons: { icon: "/favicon.ico", apple: "/apple-touch-icon.png" },
-    other: { "og:url": ogUrl }, // <-- string, no URL | undefined
+    icons: {
+      icon: [
+        { url: "/favicon.ico?v=2" },
+        { url: "/icon-192.png?v=2", type: "image/png", sizes: "192x192" }
+      ],
+      apple: [{ url: "/apple-touch-icon.png?v=2", sizes: "180x180" }],
+      shortcut: [{ url: "/favicon.ico?v=2" }]
+    },
+    manifest: "/site.webmanifest",    other: { "og:url": ogUrl }, 
     referrer: "strict-origin-when-cross-origin",
     formatDetection: { email: false, address: false, telephone: false },
   };
